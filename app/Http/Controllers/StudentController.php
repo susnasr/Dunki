@@ -5,20 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\ClientProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;  // For file handling (delete old pic)
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
     public function index()
     {
         if (auth()->user()->user_type !== 'admin') {
-            // Students only see their own profile
             $students = auth()->user()->clientProfile;
         } else {
             $students = ClientProfile::with('user')->get();
         }
 
-        return view('students.index', compact('students'));  // ← ADD: Return the view (missing before)
+        return view('students.index', compact('students'));
     }
 
     public function create()
@@ -28,7 +27,14 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        // Add validation/dynamic logic later
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|max:20',
+            'passport_no' => 'required|string|max:50|unique:client_profiles,passport_no',
+        ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -40,7 +46,6 @@ class StudentController extends Controller
         ClientProfile::create([
             'user_id' => $user->id,
             'passport_no' => $request->passport_no,
-            // Add other fields
         ]);
 
         return redirect()->route('students.index');
@@ -48,77 +53,68 @@ class StudentController extends Controller
 
     public function show(ClientProfile $student)
     {
-        $student->load('user', 'applications', 'files'); // Eager load
+        $student->load('user', 'applications', 'files');
         return view('students.show', compact('student'));
     }
 
-    /**
-     * Show the form for editing the specified student profile.
-     */
     public function edit(User $student)
     {
-        // Only allow editing own profile
         if ($student->id !== auth()->id()) {
             abort(403, 'Unauthorized');
         }
 
-        // Load related ClientProfile if student
         $student->load('clientProfile');
-
         return view('students.edit', compact('student'));
     }
 
-    /**
-     * Update the specified student profile in storage.
-     */
-    public function update(Request $request, User $student)
+    public function update(Request $request)
     {
-        // Only allow updating own profile
-        if ($student->id !== auth()->id()) {
-            abort(403, 'Unauthorized');
-        }
+        // ✅ Always use the logged-in user for profile update
+        $student = auth()->user();
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $student->id,  // Ignore current user
+            'email' => 'required|email|max:255|unique:users,email,' . $student->id,
             'phone' => 'nullable|string|max:20',
-            'passport_no' => 'nullable|string|max:50|unique:client_profiles,passport_no,' . ($student->clientProfile->id ?? 'NULL'),  // If student
-            'country_preference' => 'nullable|string|max:100',  // If student
-            'education_level' => 'nullable|string|max:100',  // If student
-            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  // 2MB max
+            'passport_no' => 'nullable|string|max:50|unique:client_profiles,passport_no,' . ($student->clientProfile->id ?? 'NULL'),
+            'country_preference' => 'nullable|string|max:100',
+            'education_level' => 'nullable|string|max:100',
+            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password' => 'nullable|string|min:8',
         ]);
 
-        // Handle profile pic upload/replacement
+        // ✅ Handle profile pic upload
         if ($request->hasFile('profile_pic')) {
-            // Delete old pic if exists
             if ($student->profile_pic) {
                 Storage::disk('public')->delete($student->profile_pic);
             }
-            // Store new pic
             $path = $request->file('profile_pic')->store('avatars', 'public');
             $student->profile_pic = $path;
         }
 
-        // Update basic user fields
+        // ✅ Update password only if user provided one
+        if ($request->filled('password')) {
+            $student->password = bcrypt($request->password);
+        }
+
+        // ✅ Update user info
         $student->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
         ]);
 
-        // Update student-specific fields (if applicable)
+        // ✅ Update client profile info
         if ($student->user_type === 'student' && $student->clientProfile) {
             $student->clientProfile->update([
                 'passport_no' => $request->passport_no,
                 'country_preference' => $request->country_preference,
                 'education_level' => $request->education_level,
-                // Add more CLIENT_PROFILES fields as needed
             ]);
         }
 
-        return redirect()->route('students.show', $student->id)
+        // ✅ Redirect to the student's profile view page (show.blade.php)
+        return redirect()->route('students.show', $student->clientProfile->id)
             ->with('success', 'Profile updated successfully!');
     }
-
-    // Add destroy as needed (e.g., for admins deleting students)
 }
