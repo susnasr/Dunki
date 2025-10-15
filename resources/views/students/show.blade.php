@@ -58,7 +58,7 @@
   <aside class="app-sidebar">
       <!-- START BRAND LOGO -->
       <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-          <a href="index.html">
+          <a href="{{ url('/') }}">
               <img height="35" class="app-sidebar-logo-default" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/light-logo.png') }}">
               <img height="40" class="app-sidebar-logo-minimize" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/Favicon.png') }}">
           </a>

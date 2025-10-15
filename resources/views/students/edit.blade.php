@@ -60,7 +60,7 @@
   <aside class="app-sidebar">
       <!-- START BRAND LOGO -->
       <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-          <a href="index.html">
+          <a href="{{ url('/') }}">
               <img height="35" class="app-sidebar-logo-default" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/light-logo.png') }}">
               <img height="40" class="app-sidebar-logo-minimize" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/Favicon.png') }}">
           </a>
@@ -1635,12 +1635,12 @@
                         <label class="form-label" for="user_type">Select Role <span class="text-danger">*</span></label>
                         <select class="form-select" name="user_type" required>
                             <option value="">-- Choose your role --</option>
-                            <option value="admin">Admin</option>
-                            <option value="hr">HR</option>
-                            <option value="visa_consultant">Visa Consultant</option>
-                            <option value="travel_agent">Travel Agent</option>
-                            <option value="academic_advisor">Academic Advisor</option>
-                            <option value="student">Student</option>
+                            <option value="admin" {{ old('user_type', auth()->user()->user_type) == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="hr" {{ old('user_type', auth()->user()->user_type) == 'hr' ? 'selected' : '' }}>HR</option>
+                            <option value="visa_consultant" {{ old('user_type', auth()->user()->user_type) == 'visa_consultant' ? 'selected' : '' }}>Visa Consultant</option>
+                            <option value="travel_agent" {{ old('user_type', auth()->user()->user_type) == 'travel_agent' ? 'selected' : '' }}>Travel Agent</option>
+                            <option value="academic_advisor" {{ old('user_type', auth()->user()->user_type) == 'academic_advisor' ? 'selected' : '' }}>Academic Advisor</option>
+                            <option value="student" {{ old('user_type', auth()->user()->user_type) == 'student' ? 'selected' : '' }}>Student</option>
                         </select>
                     </div>
 

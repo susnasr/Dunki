@@ -810,7 +810,7 @@
         <div class="offcanvas-header hstack border-bottom">
             <!-- START BRAND LOGO -->
             <div class="app-sidebar-logo">
-                <a href="index.html">
+                <a href="{{ route('home') }}">
                     <img height="35" class="app-sidebar-logo-default h-25px" alt="Logo" src="assets/images/light-logo.png">
                     <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
                 </a>

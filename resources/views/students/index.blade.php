@@ -52,11 +52,12 @@
     <aside class="app-sidebar">
         <!-- START BRAND LOGO -->
         <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-            <a href="index.html">
-                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="assets/images/light-logo.png">
-                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
+            <a href="{{ url('/') }}">
+                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
+                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
             </a>
         </div>
+
         <!-- END BRAND LOGO -->
         <nav class="app-sidebar-menu nav nav-pills flex-column fs-6" id="sidebarMenu" aria-label="Main navigation">
             <ul class="main-menu" id="all-menu-items" role="menu">

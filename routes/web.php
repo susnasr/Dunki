@@ -4,27 +4,53 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// ✅ Home route (loads home.blade.php)
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// ==========================================
+// Default Home (Dashboard redirects by role)
+// ==========================================
+Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('home');
 
-// ✅ Auth routes (login, register, logout)
+// ==========================================
+// Authentication Routes
+// ==========================================
 Auth::routes();
 
-// ✅ Resource routes
-Route::resource('students', StudentController::class);
-Route::resource('applications', ApplicationController::class);
-Route::resource('files', FileController::class);
-Route::resource('tasks', TaskController::class);
+// ==========================================
+// Role-Based Route Groups
+// ==========================================
 
-// ✅ Custom route for editing the current user's profile (unique name)
-Route::get('/profile/edit', function () {
-    return view('students.edit');
-})->name('profile.edit')->middleware('auth');
+// 🧍 STUDENT ROUTES
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+    Route::resource('applications', ApplicationController::class)->except(['show']); // Student can CRUD their applications
+    Route::resource('files', FileController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::get('/profile/edit', [StudentController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [StudentController::class, 'update'])->name('profile.update');
+});
 
-// ✅ Custom route for updating the current user's profile
-Route::put('/profile/update', [StudentController::class, 'update'])->name('profile.update')->middleware('auth');
+// 👩‍💼 HR ROUTES
+Route::middleware(['auth', 'role:hr'])->group(function () {
+    Route::get('/hr/dashboard', [DashboardController::class, 'hr'])->name('hr.dashboard');
+    Route::resource('tasks', TaskController::class);
+    Route::get('/hr/applications', [ApplicationController::class, 'index'])->name('hr.applications.index');
+});
+
+// 🧳 VISA CONSULTANT ROUTES
+Route::middleware(['auth', 'role:consultant'])->group(function () {
+    Route::get('/consultant/dashboard', [DashboardController::class, 'consultant'])->name('consultant.dashboard');
+    Route::get('/consultant/tasks', [TaskController::class, 'index'])->name('consultant.tasks.index');
+});
+
+// 🛠️ ADMIN ROUTES
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
+    Route::resource('students', StudentController::class);
+});
+
+// ==========================================
+// API ROUTES
+// ==========================================
+Route::get('/api/orders', [DashboardController::class, 'getOrders'])->middleware('auth');

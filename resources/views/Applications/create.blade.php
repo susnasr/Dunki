@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Dunki | The ultimate way to get outta country</title>
+    <title>Create Application | Dunki</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it's perfect for web developers.">
     <meta name="keywords" content="Herozi bootstrap dashboard, bootstrap, bootstrap 5, html dashboard, web dashboard, admin themes, web design, figma, web development, fullcalendar, datatables, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dark mode, bootstrap button, frontend dashboard, responsive bootstrap theme">
@@ -52,6 +52,9 @@
 
 
 <body>
+
+<!-- Begin page -->
+<!-- START HEADER -->
 @include('components.header')
 <!-- START SIDEBAR -->
 <aside class="app-sidebar">
@@ -62,7 +65,6 @@
             <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
         </a>
     </div>
-
 
     <!-- END BRAND LOGO -->
     <nav class="app-sidebar-menu nav nav-pills flex-column fs-6" id="sidebarMenu" aria-label="Main navigation">
@@ -815,13 +817,12 @@
 <div class="offcanvas offcanvas-md offcanvas-start small-screen-sidebar" data-bs-scroll="true" tabindex="-1" id="smallScreenSidebar" aria-labelledby="smallScreenSidebarLabel">
     <div class="offcanvas-header hstack border-bottom">
         <!-- START BRAND LOGO -->
-        <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-            <a href="{{ route('home') }}">
-                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
-                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
+        <div class="app-sidebar-logo">
+            <a href="index.html">
+                <img height="35" class="app-sidebar-logo-default h-25px" alt="Logo" src="assets/images/light-logo.png">
+                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
             </a>
         </div>
-
         <button type="button" class="btn-close bg-transparent" data-bs-dismiss="offcanvas" aria-label="Close">
             <i class="ri-close-line"></i>
         </button>
@@ -1585,302 +1586,136 @@
 
 <main class="app-wrapper">
     <div class="app-container">
+
         <!-- start page title -->
         <div class="hstack flex-wrap gap-3 mb-5">
             <div class="flex-grow-1">
-                <h4 class="mb-1 fw-semibold">Dunki</h4>
+                <h4 class="mb-1 fw-semibold">Add Application</h4>
                 <nav>
                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Dashboard</a>
+                            <a href="{{ route('applications.index') }}">Applications</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Dunki</li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Application</li>
                     </ol>
                 </nav>
             </div>
             <div class="d-flex my-xl-auto align-items-center flex-wrap flex-shrink-0">
-                <a href="apps-product-create.html" class="btn btn-sm btn-light-primary">
-                    Add Product
+                <a href="{{ route('applications.index') }}" class="btn btn-sm btn-light-primary">
+                    View All
                 </a>
             </div>
         </div>
         <!-- end page title -->
-        <div class="e-commerce-dashboard container-fluid py-4">
 
-            {{-- ========== Top Summary Cards ========== --}}
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-warning-subtle text-warning avatar avatar-item rounded-2">
-                                            <i class="bi bi-house-heart-fill fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Applications</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalApplications }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">All-time total</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="row justify-content-center">
+            <div class="col-xxl-9">
+                <form action="{{ route('applications.store') }}" method="POST">
+                    @csrf
 
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-danger-subtle text-danger avatar avatar-item rounded-2">
-                                            <i class="ri-user-line fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Students</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalStudents }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">Registered users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-success-subtle text-success avatar avatar-item rounded-2">
-                                            <i class="ri-file-check-line fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Verified Documents</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalVerifiedFiles }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">Verified by admin</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-info-subtle text-info avatar avatar-item rounded-2">
-                                            <i class="ri-task-line fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Tasks Completed</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalCompletedTasks }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">Completed tasks</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ========== Analytics & Ratings Row ========== --}}
-            <div class="row g-4 mb-4">
-                {{-- Chart: Applications / Tasks Over Time --}}
-                <div class="col-lg-6">
                     <div class="card mb-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="mb-1">Application submissions / Task completions over time</h5>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-primary btn-sm">1W</button>
-                                <button class="btn btn-outline-primary btn-sm">1M</button>
-                                <button class="btn btn-outline-primary btn-sm">6M</button>
-                                <button class="btn btn-outline-primary btn-sm">1Y</button>
-                            </div>
-                        </div>
-                        <div class="card-body p-3">
-                            <canvas id="orderAnalyticsDashboard" height="140"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Rating / Approval Card --}}
-                <div class="col-lg-3">
-                    <div class="card mb-0">
-                        <div class="card-header">
-                            <h5 class="mb-0">Student Satisfaction / Application Approval Rates</h5>
-                        </div>
-                        <div class="card-body text-center">
-                            <div class="fs-1 text-warning mb-2">
-                                <i class="ri-star-fill"></i><i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i><i class="ri-star-fill"></i>
-                                <i class="ri-star-half-line"></i>
-                            </div>
-                            <h6 class="fw-semibold text-primary">{{ $approvalRate }}% Approval Rate</h6>
-                            <p class="text-muted">Based on {{ $totalVerifiedFiles }} verified out of {{ \App\Models\File::count() }} files</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Total Fees --}}
-                <div class="col-lg-3">
-                    <div class="card mb-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Total Fees Collected / Applications Processed</h5>
-                        </div>
                         <div class="card-body">
-                            @php
-                                $hasFeeColumn = \Schema::hasColumn('applications', 'fee');
-                                $totalFees = $hasFeeColumn ? \App\Models\Application::sum('fee') : 0;
-                                $target = $totalFees + 6500;
-                                $progress = $target > 0 ? ($totalFees / $target) * 100 : 0;
-                            @endphp
 
-                            <h4 class="fw-semibold">${{ number_format($totalFees, 2) }}</h4>
-                            <div class="progress progress-xs">
-                                <div class="progress-bar bg-primary" style="width: {{ round($progress, 1) }}%;"></div>
+                            <!-- Student & Application Info -->
+                            <div class="d-flex justify-content-between flex-column flex-sm-row">
+                                <div>
+                                    <h5 class="fw-bold mb-5">Student Information</h5>
+                                    <address class="mt-6">
+                                        {{ auth()->user()->name ?? 'Student Name' }}<br>
+                                        {{ auth()->user()->email ?? 'student@example.com' }}<br>
+                                        <span class="text-muted">Client Profile ID: {{ auth()->user()->clientProfile->id ?? '-' }}</span>
+                                    </address>
+                                </div>
+
+                                <div>
+                                    <h5 class="mb-6 d-flex align-items-center justify-content-end text-nowrap gap-2">
+                                        APPLICATION #
+                                        <input type="text" value="{{ old('application_no', 'APP-' . strtoupper(Str::random(6))) }}"
+                                               name="application_no" class="form-control form-control-sm bg-light w-150px border-0" readonly>
+                                    </h5>
+                                    <div class="mb-1 d-flex align-items-center justify-content-end text-nowrap gap-2">
+                                        <span class="fw-semibold text-body">Date Created:</span>
+                                        <input type="text" value="{{ now()->format('Y-m-d') }}" class="form-control form-control-sm bg-light fs-13 w-150px" readonly>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center justify-content-end text-nowrap gap-2">
+                                        <span class="fw-semibold text-body">Application Type:</span>
+                                        <select name="type" class="form-select form-select-sm fs-13" required>
+                                            <option value="">Select Type</option>
+                                            <option value="university_admission">University Admission</option>
+                                            <option value="visa">Visa</option>
+                                            <option value="scholarship">Scholarship</option>
+                                            <option value="travel_support">Travel Support</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center justify-content-end text-nowrap gap-2">
+                                        <span class="fw-semibold text-body">Status:</span>
+                                        <select name="status" class="form-select form-select-sm fs-13">
+                                            <option value="draft">Draft</option>
+                                            <option value="submitted">Submitted</option>
+                                            <option value="under_review">Under Review</option>
+                                            <option value="approved">Approved</option>
+                                            <option value="rejected">Rejected</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-muted mt-2 mb-0">Target: ${{ number_format($target, 2) }}</p>
+
+                            <hr class="mb-6">
+
+                            <!-- Application Details -->
+                            <div class="row d-flex justify-content-between mb-6 gy-4">
+                                <div class="col-lg-6">
+                                    <h6 class="fw-semibold">Program Details</h6>
+                                    <input type="text" class="mb-2 form-control bg-light" name="program_name" placeholder="Program Name" required>
+                                    <input type="text" class="mb-2 form-control bg-light" name="university_name" placeholder="University Name" required>
+                                    <input type="text" class="mb-2 form-control bg-light" name="destination" placeholder="Destination Country" required>
+                                    <input type="date" class="mb-2 form-control bg-light" name="start_date" placeholder="Start Date">
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 class="fw-semibold">Financial Info</h6>
+                                    <input type="number" class="mb-2 form-control bg-light" name="application_fee" placeholder="Application Fee (USD)">
+                                    <input type="number" class="mb-2 form-control bg-light" name="tuition_fee" placeholder="Tuition Fee (USD)">
+                                    <input type="number" class="mb-2 form-control bg-light" name="other_charges" placeholder="Other Charges">
+                                    <input type="text" class="mb-2 form-control bg-light" name="scholarship" placeholder="Scholarship Details (if any)">
+                                </div>
+                            </div>
+
+                            <!-- Uploaded Documents -->
+                            <div class="mb-4">
+                                <h6 class="fw-semibold">Upload Supporting Documents</h6>
+                                <input type="file" name="documents[]" class="form-control bg-light" multiple>
+                                <small class="text-muted">Allowed: PDF, JPG, PNG (max 5MB each)</small>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <span class="fw-semibold">Additional Notes:</span>
+                                    <textarea name="notes" class="form-control bg-light bg-opacity-40 mt-2" rows="4" placeholder="Enter any special requirements or notes"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Footer Section -->
+                        <div class="card-footer bg-light bg-opacity-40 text-center">
+                            <p class="mb-0">Study Abroad Portal</p>
+                            <p class="text-muted small mb-0">Submit your application with accurate details.</p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="card-footer border-0 d-flex justify-content-end align-items-center gap-2">
+                            <a href="{{ route('applications.index') }}" class="btn btn-light">
+                                Cancel <i class="ri-close-line ms-1 align-middle"></i>
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Application <i class="ri-send-plane-line ms-1 align-middle"></i>
+                            </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-
-            {{-- ========== Chart Script ========== --}}
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                // Chart Data from Laravel Controller
-                const appTrends = @json($applicationTrends);
-                const taskTrends = @json($taskTrends);
-
-                const labels = Array.from(new Set([...Object.keys(appTrends), ...Object.keys(taskTrends)]))
-                    .sort((a, b) => a - b)
-                    .map(m => 'Month ' + m);
-
-                const ctx = document.getElementById('orderAnalyticsDashboard').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Applications',
-                                data: labels.map(m => appTrends[m.replace('Month ', '')] || 0),
-                                backgroundColor: 'rgba(37, 99, 235, 0.6)',
-                                borderColor: 'rgb(37, 99, 235)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Tasks',
-                                data: labels.map(m => taskTrends[m.replace('Month ', '')] || 0),
-                                backgroundColor: 'rgba(34, 197, 94, 0.6)',
-                                borderColor: 'rgb(34, 197, 94)',
-                                borderWidth: 1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
-                        },
-                        plugins: {
-                            legend: { position: 'bottom' }
-                        }
-                    }
-                });
-            </script>
-
-
-            {{-- ========== Recent Applications / Tasks + Top Destinations ========== --}}
-            <div class="row g-4">
-                <div class="col-lg-8 col-xl-9">
-                    <div class="card mb-0">
-                        <div class="card-header">
-                            <h5 class="mb-0">Recent Applications or Tasks</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <table class="table table-striped mb-0 align-middle">
-                                <thead class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Type</th>
-                                    <th>Title / Name</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $recentApplications = \App\Models\Application::latest()->take(5)->get();
-                                    $recentTasks = \App\Models\Task::latest()->take(5)->get();
-                                @endphp
-
-                                @foreach($recentApplications as $app)
-                                    <tr>
-                                        <td>#A{{ $app->id }}</td>
-                                        <td><span class="badge bg-primary">Application</span></td>
-                                        <td>{{ $app->title ?? 'Untitled' }}</td>
-                                        <td><span class="badge bg-success">{{ ucfirst($app->status ?? 'pending') }}</span></td>
-                                        <td>{{ $app->created_at->format('d M Y') }}</td>
-                                    </tr>
-                                @endforeach
-
-                                @foreach($recentTasks as $task)
-                                    <tr>
-                                        <td>#T{{ $task->id }}</td>
-                                        <td><span class="badge bg-info">Task</span></td>
-                                        <td>{{ $task->title ?? 'Untitled' }}</td>
-                                        <td><span class="badge bg-success">{{ ucfirst($task->status ?? 'pending') }}</span></td>
-                                        <td>{{ $task->created_at->format('d M Y') }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-xl-3">
-                    <div class="card mb-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Top Destination Countries / Universities</h5>
-                            <select class="form-select w-auto">
-                                <option>Monthly</option>
-                                <option>Weekly</option>
-                                <option>Annually</option>
-                            </select>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>USA</span><span class="badge bg-success">+15%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>UK</span><span class="badge bg-danger">-5%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Canada</span><span class="badge bg-success">+8%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Australia</span><span class="badge bg-warning">0%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Germany</span><span class="badge bg-success">+4%</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-
-
 
     </div>
 </main>
@@ -3053,6 +2888,10 @@
                 </div>
             </div>
         </div>
+        <div class="offcanvas-header border-top hstack gap-3 justify-content-center">
+            <button type="button" id="resetSettings" class="btn btn-dark">Reset Layouts</button>
+            <button type="button" class="btn btn-danger">Buy Now</button>
+        </div>
     </div>
 </div>
 <!-- END SWITCHER -->
@@ -3066,8 +2905,9 @@
     <i class="ri-arrow-up-line fs-16 z-1 position-relative text-primary"></i>
 </div>
 <!-- END scroll top -->
+<!-- Begin Footer -->
 @include('components.footer')
-
+<!-- END Footer -->
 
 <!-- JAVASCRIPT -->
 <script src="{{ asset('assets/js/sidebar.js') }}"></script>

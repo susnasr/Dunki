@@ -99,9 +99,12 @@ class StudentController extends Controller
 
         // ✅ Update user info
         $student->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'phone'    => $request->phone,
+            'user_type' => strtoupper($request->user_type),
+            'country'  => $request->country,
+            'location' => $request->location,
         ]);
 
         // ✅ Update client profile info

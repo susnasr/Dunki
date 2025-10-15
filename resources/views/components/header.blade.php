@@ -10,7 +10,6 @@
                         <img height="40" class="app-sidebar-logo-minimize" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/Favicon.png') }}">
                     </a>
                 </div>
-
                 <!-- Sidebar Toggle Btn -->
                 <button type="button" class="btn btn-light-light icon-btn sidebar-toggle d-none d-md-block" aria-expanded="false" aria-controls="main-menu">
                     <span class="visually-hidden">Toggle sidebar</span>

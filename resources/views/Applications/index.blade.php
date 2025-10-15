@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Invoice List | Herozi - Bootstrap Admin & Dashboard Template</title>
+    <title>Applications | Dunki</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it\'s perfect for web developers.">
     <meta name="keywords" content="Herozi bootstrap dashboard, bootstrap, bootstrap 5, html dashboard, web dashboard, admin themes, web design, figma, web development, fullcalendar, datatables, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dark mode, bootstrap button, frontend dashboard, responsive bootstrap theme">
@@ -267,7 +267,7 @@
                         </li>
                         <li class="slide">
                             <a href="#!" class="side-menu__item" role="menuitem">
-                                <span class="side-menu__label" data-lang="hr-invoices">Invoices</span>
+                                <span class="side-menu__label" data-lang="hr-invoices">Applications</span>
                                 <i class="ri-arrow-down-s-line side-menu__angle"></i>
                             </a>
                             <ul class="slide-menu" role="menu">
@@ -1579,18 +1579,18 @@
     <!-- start page title -->
     <div class="hstack flex-wrap gap-3 mb-5">
       <div class="flex-grow-1">
-        <h4 class="mb-1 fw-semibold">Invoice List</h4>
+        <h4 class="mb-1 fw-semibold">Applications</h4>
         <nav>
           <ol class="breadcrumb breadcrumb-arrow mb-0">
             <li class="breadcrumb-item">
               <a href="index.html">Apps</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Invoice List</li>
+            <li class="breadcrumb-item active" aria-current="page">Applications List</li>
           </ol>
         </nav>
       </div>
-      <div class="d-flex my-xl-auto align-items-center flex-wrap flex-shrink-0">
-        <a href="apps-create-invoices.html" class="btn btn-sm btn-light-primary">
+        <div class="d-flex my-xl-auto align-items-center flex-wrap flex-shrink-0">
+            <a href="{{ route('applications.create') }}" class="btn btn-sm btn-light-primary">
           Add new
         </a>
       </div>
@@ -1600,7 +1600,7 @@
         <div class="col-lg-7">
             <div class="card card-h-100">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Invoice</h5>
+                    <h5 class="card-title mb-0">Applications</h5>
                 </div>
                 <div class="card-body px-2 py-4">
                     <div id="invoice-list"></div>
