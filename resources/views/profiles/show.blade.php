@@ -2,8 +2,9 @@
 <html lang="en" class="h-100">
 
 <head>
+
     <meta charset="utf-8">
-    <title>Dunki | The ultimate way to get outta country</title>
+    <title>Dunki | Profile Show</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it's perfect for web developers.">
     <meta name="keywords" content="Herozi bootstrap dashboard, bootstrap, bootstrap 5, html dashboard, web dashboard, admin themes, web design, figma, web development, fullcalendar, datatables, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dark mode, bootstrap button, frontend dashboard, responsive bootstrap theme">
@@ -50,20 +51,18 @@
     <link href="{{ asset('assets/css/custom.min.css') }}" id="custom-style" rel="stylesheet" type="text/css">
 </head>
 
-
 <body>
 @include('components.header')
+
 <!-- START SIDEBAR -->
 <aside class="app-sidebar">
     <!-- START BRAND LOGO -->
     <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
         <a href="{{ url('/') }}">
-            <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
-            <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
+            <img height="35" class="app-sidebar-logo-default" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/light-logo.png') }}">
+            <img height="40" class="app-sidebar-logo-minimize" alt="Dunki Logo" loading="lazy" src="{{ asset('assets/images/Favicon.png') }}">
         </a>
     </div>
-
-
     <!-- END BRAND LOGO -->
     <nav class="app-sidebar-menu nav nav-pills flex-column fs-6" id="sidebarMenu" aria-label="Main navigation">
         <ul class="main-menu" id="all-menu-items" role="menu">
@@ -349,15 +348,6 @@
                         <ul class="slide-menu" role="menu">
                             <li class="slide">
                                 <a href="pages-profile-overview.html" class="side-menu__item" role="menuitem" data-lang="hr-profile-overview">Overview</a>
-                            </li>
-                            <li class="slide">
-                                <a href="pages-profile-project.html" class="side-menu__item" role="menuitem" data-lang="hr-profile-project">Project</a>
-                            </li>
-                            <li class="slide">
-                                <a href="pages-profile-documents.html" class="side-menu__item" role="menuitem" data-lang="hr-profile-documents">Documents</a>
-                            </li>
-                            <li class="slide">
-                                <a href="pages-profile-connections.html" class="side-menu__item" role="menuitem" data-lang="hr-profile-connections">Connections</a>
                             </li>
                         </ul>
                     </li>
@@ -815,13 +805,12 @@
 <div class="offcanvas offcanvas-md offcanvas-start small-screen-sidebar" data-bs-scroll="true" tabindex="-1" id="smallScreenSidebar" aria-labelledby="smallScreenSidebarLabel">
     <div class="offcanvas-header hstack border-bottom">
         <!-- START BRAND LOGO -->
-        <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-            <a href="{{ route('home') }}">
-                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
-                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
+        <div class="app-sidebar-logo">
+            <a href="index.html">
+                <img height="35" class="app-sidebar-logo-default h-25px" alt="Logo" src="assets/images/light-logo.png">
+                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
             </a>
         </div>
-
         <button type="button" class="btn-close bg-transparent" data-bs-dismiss="offcanvas" aria-label="Close">
             <i class="ri-close-line"></i>
         </button>
@@ -1585,343 +1574,81 @@
 
 <main class="app-wrapper">
     <div class="app-container">
-
-        @php
-            $role = auth()->user()->user_type;
-        @endphp
-
-        {{-- STUDENT DASHBOARD --}}
-        @if($role === 'student')
-            @include('partials.dashboard-student')
-        @endif
-
-        {{-- HR DASHBOARD --}}
-        @if($role === 'hr')
-            @include('partials.dashboard-hr')
-        @endif
-
-        {{-- VISA CONSULTANT DASHBOARD --}}
-        @if($role === 'visa_consultant')
-            @include('partials.dashboard-consultant')
-        @endif
-
-        {{-- TRAVEL AGENT DASHBOARD --}}
-        @if($role === 'travel_agent')
-            @include('partials.dashboard-travel')
-        @endif
-
-        {{-- ACADEMIC ADVISOR DASHBOARD --}}
-        @if($role === 'academic_advisor')
-            @include('partials.dashboard-academic')
-        @endif
-
-        {{-- ADMIN DASHBOARD --}}
-        @if($role === 'admin')
-            @include('partials.dashboard-admin')
-        @endif
-
-
-        <!-- start page title -->
         <div class="hstack flex-wrap gap-3 mb-5">
             <div class="flex-grow-1">
-                <h4 class="mb-1 fw-semibold">Dunki</h4>
+                <h4 class="mb-1 fw-semibold">Profile Overview</h4>
                 <nav>
                     <ol class="breadcrumb breadcrumb-arrow mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Dashboard</a>
+                            <a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Dunki</li>
+                        <li class="breadcrumb-item active" aria-current="page">Profile Overview</li>
                     </ol>
                 </nav>
             </div>
-            <div class="d-flex my-xl-auto align-items-center flex-wrap flex-shrink-0">
-                <a href="apps-product-create.html" class="btn btn-sm btn-light-primary">
-                    Add Product
-                </a>
-            </div>
-        </div>
-        <!-- end page title -->
-        <div class="e-commerce-dashboard container-fluid py-4">
-
-            {{-- ========== Top Summary Cards ========== --}}
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-warning-subtle text-warning avatar avatar-item rounded-2">
-                                            <i class="bi bi-house-heart-fill fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Applications</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalApplications }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">All-time total</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-danger-subtle text-danger avatar avatar-item rounded-2">
-                                            <i class="ri-user-line fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Students</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalStudents }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">Registered users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-success-subtle text-success avatar avatar-item rounded-2">
-                                            <i class="ri-file-check-line fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Verified Documents</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalVerifiedFiles }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">Verified by admin</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="card card-h-100 overflow-hidden">
-                        <div class="card-body p-4">
-                            <div class="hstack justify-content-between align-items-end">
-                                <div class="flex-grow-1">
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="bg-info-subtle text-info avatar avatar-item rounded-2">
-                                            <i class="ri-task-line fs-16 fw-medium"></i>
-                                        </div>
-                                        <h6 class="mb-0 fs-13">Total Tasks Completed</h6>
-                                    </div>
-                                    <h4 class="fw-semibold fs-5 mb-0">{{ $totalCompletedTasks }}</h4>
-                                </div>
-                                <div class="text-end text-muted fs-12">Completed tasks</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ========== Analytics & Ratings Row ========== --}}
-            <div class="row g-4 mb-4">
-                {{-- Chart: Applications / Tasks Over Time --}}
-                <div class="col-lg-6">
-                    <div class="card mb-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="mb-1">Application submissions / Task completions over time</h5>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-primary btn-sm">1W</button>
-                                <button class="btn btn-outline-primary btn-sm">1M</button>
-                                <button class="btn btn-outline-primary btn-sm">6M</button>
-                                <button class="btn btn-outline-primary btn-sm">1Y</button>
-                            </div>
-                        </div>
-                        <div class="card-body p-3">
-                            <canvas id="orderAnalyticsDashboard" height="140"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Rating / Approval Card --}}
-                <div class="col-lg-3">
-                    <div class="card mb-0">
-                        <div class="card-header">
-                            <h5 class="mb-0">Student Satisfaction / Application Approval Rates</h5>
-                        </div>
-                        <div class="card-body text-center">
-                            <div class="fs-1 text-warning mb-2">
-                                <i class="ri-star-fill"></i><i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i><i class="ri-star-fill"></i>
-                                <i class="ri-star-half-line"></i>
-                            </div>
-                            <h6 class="fw-semibold text-primary">{{ $approvalRate }}% Approval Rate</h6>
-                            <p class="text-muted">Based on {{ $totalVerifiedFiles }} verified out of {{ \App\Models\File::count() }} files</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Total Fees --}}
-                <div class="col-lg-3">
-                    <div class="card mb-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Total Fees Collected / Applications Processed</h5>
-                        </div>
-                        <div class="card-body">
-                            @php
-                                $hasFeeColumn = \Schema::hasColumn('applications', 'fee');
-                                $totalFees = $hasFeeColumn ? \App\Models\Application::sum('fee') : 0;
-                                $target = $totalFees + 6500;
-                                $progress = $target > 0 ? ($totalFees / $target) * 100 : 0;
-                            @endphp
-
-                            <h4 class="fw-semibold">${{ number_format($totalFees, 2) }}</h4>
-                            <div class="progress progress-xs">
-                                <div class="progress-bar bg-primary" style="width: {{ round($progress, 1) }}%;"></div>
-                            </div>
-                            <p class="text-muted mt-2 mb-0">Target: ${{ number_format($target, 2) }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ========== Chart Script ========== --}}
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                // Chart Data from Laravel Controller
-                const appTrends = @json($applicationTrends);
-                const taskTrends = @json($taskTrends);
-
-                const labels = Array.from(new Set([...Object.keys(appTrends), ...Object.keys(taskTrends)]))
-                    .sort((a, b) => a - b)
-                    .map(m => 'Month ' + m);
-
-                const ctx = document.getElementById('orderAnalyticsDashboard').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Applications',
-                                data: labels.map(m => appTrends[m.replace('Month ', '')] || 0),
-                                backgroundColor: 'rgba(37, 99, 235, 0.6)',
-                                borderColor: 'rgb(37, 99, 235)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Tasks',
-                                data: labels.map(m => taskTrends[m.replace('Month ', '')] || 0),
-                                backgroundColor: 'rgba(34, 197, 94, 0.6)',
-                                borderColor: 'rgb(34, 197, 94)',
-                                borderWidth: 1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
-                        },
-                        plugins: {
-                            legend: { position: 'bottom' }
-                        }
-                    }
-                });
-            </script>
-
-
-            {{-- ========== Recent Applications / Tasks + Top Destinations ========== --}}
-            <div class="row g-4">
-                <div class="col-lg-8 col-xl-9">
-                    <div class="card mb-0">
-                        <div class="card-header">
-                            <h5 class="mb-0">Recent Applications or Tasks</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <table class="table table-striped mb-0 align-middle">
-                                <thead class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Type</th>
-                                    <th>Title / Name</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $recentApplications = \App\Models\Application::latest()->take(5)->get();
-                                    $recentTasks = \App\Models\Task::latest()->take(5)->get();
-                                @endphp
-
-                                @foreach($recentApplications as $app)
-                                    <tr>
-                                        <td>#A{{ $app->id }}</td>
-                                        <td><span class="badge bg-primary">Application</span></td>
-                                        <td>{{ $app->title ?? 'Untitled' }}</td>
-                                        <td><span class="badge bg-success">{{ ucfirst($app->status ?? 'pending') }}</span></td>
-                                        <td>{{ $app->created_at->format('d M Y') }}</td>
-                                    </tr>
-                                @endforeach
-
-                                @foreach($recentTasks as $task)
-                                    <tr>
-                                        <td>#T{{ $task->id }}</td>
-                                        <td><span class="badge bg-info">Task</span></td>
-                                        <td>{{ $task->title ?? 'Untitled' }}</td>
-                                        <td><span class="badge bg-success">{{ ucfirst($task->status ?? 'pending') }}</span></td>
-                                        <td>{{ $task->created_at->format('d M Y') }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-xl-3">
-                    <div class="card mb-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Top Destination Countries / Universities</h5>
-                            <select class="form-select w-auto">
-                                <option>Monthly</option>
-                                <option>Weekly</option>
-                                <option>Annually</option>
-                            </select>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>USA</span><span class="badge bg-success">+15%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>UK</span><span class="badge bg-danger">-5%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Canada</span><span class="badge bg-success">+8%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Australia</span><span class="badge bg-warning">0%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Germany</span><span class="badge bg-success">+4%</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
+        <div class="card">
+            <div class="card-body pb-0">
+                <div class="hstack align-items-start justify-content-center text-center gap-4 flex-wrap">
+                    <div class="position-relative w-max">
+                        <div class="d-flex align-items-center" data-uploader>
+                            <div class="avatar-item avatar-xl">
+                                <img class="img-fluid avatar-xl" alt="avatar image"
+                                     src="{{ $user->profile_pic ? asset('storage/' . $user->profile_pic) : asset('assets/images/default-avatar.png') }}"
+                                     data-action="avatar-image">
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="flex-grow-1">
+                        <div class="vstack gap-5 mb-5">
+                            <div class="flex-grow-1">
+                                <h4 class="mb-2 fs-5 fw-semibold">{{ $user->name }}</h4>
+                                <ul class="d-flex flex-wrap gap-2 text-muted p-0 mb-0 justify-content-center">
+                                    <li class="d-flex align-items-center gap-1">
+                                        <i class="ri-mail-line"></i>
+                                        <p class="mb-0">{{ $user->email }}</p>
+                                    </li>
 
+                                    <li class="d-flex align-items-center gap-1">
+                                        <i class="ri-user-2-line"></i>
+                                        <p class="mb-0 text-capitalize">{{ $user->user_type }}</p>
+                                    </li>
+
+                                    @if($user->phone)
+                                        <li class="d-flex align-items-center gap-1">
+                                            <i class="ri-phone-line"></i>
+                                            <p class="mb-0">{{ $user->phone }}</p>
+                                        </li>
+                                    @endif
+
+                                    @if($user->country)
+                                        <li class="d-flex align-items-center gap-1">
+                                            <i class="ri-flag-line"></i>
+                                            <p class="mb-0">{{ $user->country }}</p>
+                                        </li>
+                                    @endif
+
+                                    @if($user->location)
+                                        <li class="d-flex align-items-center gap-1">
+                                            <i class="ri-map-pin-line"></i>
+                                            <p class="mb-0">{{ $user->location }}</p>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
+
+                            <div class="hstack justify-content-center gap-2 flex-shrink-0">
+                                <a href="{{ route('profile.edit') }}" class="btn btn-primary">Update Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
-
-<!-- START SWITCHER -->
 <div class="switcher">
     <button type="button" class="switcher-icon btn btn-dark" data-bs-toggle="offcanvas" data-bs-target="#switcher">
         <i class="bi-sliders fs-6 me-2"></i> Customize
@@ -1940,306 +1667,12 @@
             <!-- MAIN_LAYOUT -->
             <div class="d-none d-lg-block">
                 <h6 class="mb-2 fs-5">Theme Layouts</h6>
-                <p class="text-muted">Defines the admin panel's layout style, allowing you to choose from different design options.</p>
+                <p class="text-muted">Defines the admin panel\'s layout style, allowing you to choose from different design options.</p>
                 <div class="row g-4 mb-5">
                     <div class="col-12 col-sm-4">
                         <!-- VERTICAL -->
                         <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="vertical" type="radio" id="verticalLayouts">
                         <label for="verticalLayouts" class="switcher-card w-100">
-                  <span class="border d-block rounded h-100px overflow-hidden">
-                    <span class="d-flex h-100">
-                      <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Vertical</span>
-                        </label>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <!-- HORIZONTAL -->
-                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="horizontal" type="radio" id="horizontalLayouts">
-                        <label for="horizontalLayouts" class="switcher-card w-100">
-                  <span class="border d-block rounded h-100px overflow-hidden">
-                    <span class="d-flex h-100">
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="d-flex h-16px flex-shrink-0 border-end">
-                          <span class="w-20px h-16px bg-light d-block"></span>
-                          <span class="w-100 bg-primary-subtle d-flex justify-content-between p-1">
-                            <span class="d-flex gap-2">
-                              <span class="w-20px h-6px bg-light rounded d-block mb-1"></span>
-                              <span class="w-20px h-6px bg-light rounded d-block mb-1"></span>
-                            </span>
-                            <span class="w-20px h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Horizontal</span>
-                        </label>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <!-- 2 COLUMN -->
-                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="two-column" type="radio" id="2ColumnLayouts">
-                        <label for="2ColumnLayouts" class="switcher-card w-100">
-                  <span class="border d-block rounded h-100px overflow-hidden">
-                    <span class="d-flex h-100">
-                      <span class="w-16px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 bg-light d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-primary-subtle rounded d-block mb-1"></span>
-                            <span class="h-6px bg-primary-subtle rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-primary-subtle rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="w-30px ms-1 d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Two Column</span>
-                        </label>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <!-- SEMI BOXED -->
-                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="semi-boxed" type="radio" id="semiBoxLayouts">
-                        <label for="semiBoxLayouts" class="switcher-card w-100">
-                  <span class="border d-block rounded h-100px overflow-hidden p-2">
-                    <span class="d-flex h-100 rounded">
-                      <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Semi Box</span>
-                        </label>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <!-- COMPACT -->
-                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="compact" type="radio" id="compactSidebar">
-                        <label for="compactSidebar" class="switcher-card w-100">
-                  <span class="border d-block rounded h-100px overflow-hidden">
-                    <span class="d-flex h-100">
-                      <span class="w-20px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-8px bg-light rounded d-block mb-1"></span>
-                            <span class="h-8px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-8px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Compact</span>
-                        </label>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <!-- SMALL ICON -->
-                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="small-icon" type="radio" id="smallIconSidebar">
-                        <label for="smallIconSidebar" class="switcher-card w-100">
-                  <span class="border d-block rounded h-100px overflow-hidden">
-                    <span class="d-flex h-100">
-                      <span class="w-14px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Small Icon View</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- THEME -->
-            <h6 class="mb-2 fs-5">Color Mode</h6>
-            <p class="text-muted">Choose if app's appearance should be light or dark, or follow your computer's settings.</p>
-            <div class="list-group flex-row gap-3 mb-3 template-customizer mb-5">
-                <!-- LIGHT -->
-                <label for="lightTheme" class="list-group-item p-2 form-check rounded m-0 hstack gap-3 w-max">
-              <span class="form-check-label hstack gap-2">
-                <i class="ri-sun-line"></i>
-                <span class="fw-semibold fs-12">Light Theme</span>
-              </span>
-                    <input id="lightTheme" type="radio" data-attribute="data-bs-theme" class="form-check-input" name="layoutsModes" value="light">
-                </label>
-                <!-- DARK -->
-                <label for="darkTheme" class="list-group-item p-2 form-check rounded m-0 hstack gap-3 w-max">
-              <span class="form-check-label hstack gap-2">
-                <i class="ri-moon-clear-line"></i>
-                <span class="fw-semibold fs-12">Dark Theme</span>
-              </span>
-                    <input id="darkTheme" type="radio" data-attribute="data-bs-theme" class="form-check-input" name="layoutsModes" value="dark">
-                </label>
-                <!-- AUTO -->
-                <label for="autoTheme" class="list-group-item p-2 form-check rounded m-0 hstack gap-3 w-max">
-              <span class="form-check-label hstack gap-2">
-                <i class="ri-computer-line"></i>
-                <span class="fw-semibold fs-12">Auto Theme</span>
-              </span>
-                    <input id="autoTheme" type="radio" data-attribute="data-bs-theme" class="form-check-input cursor-pointer ms-auto" name="layoutsModes" value="auto">
-                </label>
-            </div>
-
-            <!-- RTL MODE -->
-            <h6 class="mb-2 fs-5">RTL Mode</h6>
-            <p class="text-muted">Toggle between LTR and RTL layouts to support different language directions.</p>
-
-            <div class="row g-4 mb-5">
-                <div class="col-4">
-                    <!-- LTR MODE -->
-                    <input class="form-check-input d-none" data-attribute="dir" name="directionModes" value="ltr" type="radio" id="ltrLayouts">
-                    <label for="ltrLayouts" class="switcher-card w-100">
                 <span class="border d-block rounded h-100px overflow-hidden">
                   <span class="d-flex h-100">
                     <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
@@ -2274,35 +1707,107 @@
                     </span>
                   </span>
                 </span>
-                        <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">LTR Direction</span>
-                    </label>
-                </div>
-                <div class="col-4">
-                    <!-- RTL MODE -->
-                    <input class="form-check-input d-none" data-attribute="dir" name="directionModes" value="rtl" type="radio" id="rtlLayouts">
-                    <label for="rtlLayouts" class="switcher-card w-100">
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Vertical</span>
+                        </label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <!-- HORIZONTAL -->
+                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="horizontal" type="radio" id="horizontalLayouts">
+                        <label for="horizontalLayouts" class="switcher-card w-100">
                 <span class="border d-block rounded h-100px overflow-hidden">
                   <span class="d-flex h-100">
                     <span class="d-flex flex-column flex-grow-1">
                       <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
                         <span class="d-flex align-items-center gap-1">
                           <span class="w-8px h-8px bg-danger rounded-pill"></span>
                           <span class="w-8px h-8px bg-success rounded-pill"></span>
                           <span class="w-8px h-8px bg-warning rounded-pill"></span>
                         </span>
+                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      </span>
+                      <span class="d-flex h-16px flex-shrink-0 border-end">
+                        <span class="w-20px h-16px bg-light d-block"></span>
+                        <span class="w-100 bg-primary-subtle d-flex justify-content-between p-1">
+                          <span class="d-flex gap-2">
+                            <span class="w-20px h-6px bg-light rounded d-block mb-1"></span>
+                            <span class="w-20px h-6px bg-light rounded d-block mb-1"></span>
+                          </span>
+                          <span class="w-20px h-6px bg-light rounded d-block mb-1"></span>
+                        </span>
                       </span>
                       <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2 vstack align-items-end">
+                        <span class="p-2">
                           <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                           <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
                           <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
                           <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
                           <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                         </span>
-                        <span class="w-100 bg-light h-6px me-1"></span>
+                        <span class="w-100 bg-light h-6px"></span>
                       </span>
                     </span>
+                  </span>
+                </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Horizontal</span>
+                        </label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <!-- 2 COLUMN -->
+                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="two-column" type="radio" id="2ColumnLayouts">
+                        <label for="2ColumnLayouts" class="switcher-card w-100">
+                <span class="border d-block rounded h-100px overflow-hidden">
+                  <span class="d-flex h-100">
+                    <span class="w-16px d-flex flex-column h-100 flex-shrink-0 border-end">
+                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                      <span class="h-100 bg-light d-flex flex-column justify-content-between p-1">
+                        <span>
+                          <span class="h-6px bg-primary-subtle rounded d-block mb-1"></span>
+                          <span class="h-6px bg-primary-subtle rounded d-block mb-1"></span>
+                        </span>
+                        <span class="h-6px bg-primary-subtle rounded d-block mb-1"></span>
+                      </span>
+                    </span>
+                    <span class="w-30px ms-1 d-flex flex-column h-100 flex-shrink-0 border-end">
+                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                        <span>
+                          <span class="h-6px bg-light rounded d-block mb-1"></span>
+                          <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        </span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                    </span>
+                    <span class="d-flex flex-column flex-grow-1">
+                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                        <span class="d-flex align-items-center gap-1">
+                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                          <span class="w-8px h-8px bg-success rounded-pill"></span>
+                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                        </span>
+                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      </span>
+                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                        <span class="p-2">
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        </span>
+                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Two Column</span>
+                        </label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <!-- SEMI BOXED -->
+                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="semi-boxed" type="radio" id="semiBoxLayouts">
+                        <label for="semiBoxLayouts" class="switcher-card w-100">
+                <span class="border d-block rounded h-100px overflow-hidden p-2">
+                  <span class="d-flex h-100 rounded">
                     <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
                       <span class="h-16px flex-shrink-0 bg-light d-block"></span>
                       <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
@@ -2313,8 +1818,230 @@
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
                     </span>
+                    <span class="d-flex flex-column flex-grow-1">
+                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                        <span class="d-flex align-items-center gap-1">
+                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                          <span class="w-8px h-8px bg-success rounded-pill"></span>
+                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                        </span>
+                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      </span>
+                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                        <span class="p-2">
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        </span>
+                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      </span>
+                    </span>
                   </span>
                 </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Semi Box</span>
+                        </label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <!-- COMPACT -->
+                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="compact" type="radio" id="compactSidebar">
+                        <label for="compactSidebar" class="switcher-card w-100">
+                <span class="border d-block rounded h-100px overflow-hidden">
+                  <span class="d-flex h-100">
+                    <span class="w-20px d-flex flex-column h-100 flex-shrink-0 border-end">
+                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                        <span>
+                          <span class="h-8px bg-light rounded d-block mb-1"></span>
+                          <span class="h-8px bg-light rounded d-block mb-1"></span>
+                        </span>
+                        <span class="h-8px bg-light rounded d-block mb-1"></span>
+                      </span>
+                    </span>
+                    <span class="d-flex flex-column flex-grow-1">
+                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                        <span class="d-flex align-items-center gap-1">
+                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                          <span class="w-8px h-8px bg-success rounded-pill"></span>
+                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                        </span>
+                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      </span>
+                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                        <span class="p-2">
+                          <span class="w-25 bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-50 bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-100 bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-75 bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-25 bg-light rounded-1 h-6px mb-1"></span>
+                        </span>
+                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Compact</span>
+                        </label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <!-- SMALL ICON -->
+                        <input class="form-check-input d-none" data-attribute="data-main-layout" name="layoutsModes" value="small-icon" type="radio" id="smallIconSidebar">
+                        <label for="smallIconSidebar" class="switcher-card w-100">
+                <span class="border d-block rounded h-100px overflow-hidden">
+                  <span class="d-flex h-100">
+                    <span class="w-14px d-flex flex-column h-100 flex-shrink-0 border-end">
+                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                        <span>
+                          <span class="h-6px bg-light rounded d-block mb-1"></span>
+                          <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        </span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                    </span>
+                    <span class="d-flex flex-column flex-grow-1">
+                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                        <span class="d-flex align-items-center gap-1">
+                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                          <span class="w-8px h-8px bg-success rounded-pill"></span>
+                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                        </span>
+                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      </span>
+                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                        <span class="p-2">
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        </span>
+                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Small Icon View</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- THEME -->
+            <h6 class="mb-2 fs-5">Color Mode</h6>
+            <p class="text-muted">Choose if app\'s appearance should be light or dark, or follow your computer\'s settings.</p>
+            <div class="list-group flex-row gap-3 mb-3 template-customizer mb-5">
+                <!-- LIGHT -->
+                <label for="lightTheme" class="list-group-item p-2 form-check rounded m-0 hstack gap-3 w-max">
+            <span class="form-check-label hstack gap-2">
+              <i class="ri-sun-line"></i>
+              <span class="fw-semibold fs-12">Light Theme</span>
+            </span>
+                    <input id="lightTheme" type="radio" data-attribute="data-bs-theme" class="form-check-input" name="layoutsModes" value="light">
+                </label>
+                <!-- DARK -->
+                <label for="darkTheme" class="list-group-item p-2 form-check rounded m-0 hstack gap-3 w-max">
+            <span class="form-check-label hstack gap-2">
+              <i class="ri-moon-clear-line"></i>
+              <span class="fw-semibold fs-12">Dark Theme</span>
+            </span>
+                    <input id="darkTheme" type="radio" data-attribute="data-bs-theme" class="form-check-input" name="layoutsModes" value="dark">
+                </label>
+                <!-- AUTO -->
+                <label for="autoTheme" class="list-group-item p-2 form-check rounded m-0 hstack gap-3 w-max">
+            <span class="form-check-label hstack gap-2">
+              <i class="ri-computer-line"></i>
+              <span class="fw-semibold fs-12">Auto Theme</span>
+            </span>
+                    <input id="autoTheme" type="radio" data-attribute="data-bs-theme" class="form-check-input cursor-pointer ms-auto" name="layoutsModes" value="auto">
+                </label>
+            </div>
+
+            <!-- RTL MODE -->
+            <h6 class="mb-2 fs-5">RTL Mode</h6>
+            <p class="text-muted">Toggle between LTR and RTL layouts to support different language directions.</p>
+
+            <div class="row g-4 mb-5">
+                <div class="col-4">
+                    <!-- LTR MODE -->
+                    <input class="form-check-input d-none" data-attribute="dir" name="directionModes" value="ltr" type="radio" id="ltrLayouts">
+                    <label for="ltrLayouts" class="switcher-card w-100">
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
+                    </span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                      </span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                      </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
+                    </span>
+                  </span>
+                </span>
+              </span>
+                        <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">LTR Direction</span>
+                    </label>
+                </div>
+                <div class="col-4">
+                    <!-- RTL MODE -->
+                    <input class="form-check-input d-none" data-attribute="dir" name="directionModes" value="rtl" type="radio" id="rtlLayouts">
+                    <label for="rtlLayouts" class="switcher-card w-100">
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                      </span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2 vstack align-items-end">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                      </span>
+                      <span class="w-100 bg-light h-6px me-1"></span>
+                    </span>
+                  </span>
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
+                    </span>
+                  </span>
+                </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">RTL Direction</span>
                     </label>
                 </div>
@@ -2327,89 +2054,89 @@
 
                 <!-- PRIMARY -->
                 <label for="primary-variant-01" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="primary">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-primary rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-primary rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-01" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="primary" checked>
                 </label>
 
                 <!-- SECONDARY -->
                 <label for="primary-variant-02" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="secondary">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-secondary rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-secondary rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-02" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="secondary">
                 </label>
 
                 <!-- SUCCESS -->
                 <label for="primary-variant-03" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="success">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-success rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-success rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-03" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="success">
                 </label>
 
                 <!-- INFO -->
                 <label for="primary-variant-04" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="info">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-info rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-info rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-04" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="info">
                 </label>
 
                 <!-- WARNING -->
                 <label for="primary-variant-05" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="warning">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-warning rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-warning rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-05" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="warning">
                 </label>
 
                 <!-- DANGER -->
                 <label for="primary-variant-06" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="danger">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-danger rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-danger rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-06" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="danger">
                 </label>
 
                 <!-- BLUE -->
                 <label for="primary-variant-09" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="blue">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-blue rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-blue rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-09" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="blue">
                 </label>
 
                 <!-- PURPLE -->
                 <label for="primary-variant-11" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="purple">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-purple rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-purple rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-11" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="purple">
                 </label>
 
                 <!-- PINK -->
                 <label for="primary-variant-12" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="pink">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-pink rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-pink rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-12" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="pink">
                 </label>
 
                 <!-- ORANGE -->
                 <label for="primary-variant-13" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="orange">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-orange rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-orange rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-13" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="orange">
                 </label>
 
                 <!-- TEAL -->
                 <label for="primary-variant-16" class="list-group-item form-check p-1 rounded-3 m-0" data-theme-color="teal">
-              <span class="form-check-label hstack avatar avatar-item theme-bg-teal rounded-3 border-0">
-                <i class="ri-palette-line"></i>
-              </span>
+            <span class="form-check-label hstack avatar avatar-item theme-bg-teal rounded-3 border-0">
+              <i class="ri-palette-line"></i>
+            </span>
                     <input id="primary-variant-16" type="radio" data-attribute="data-theme-color" class="form-check-input d-none" name="data-theme-color" value="teal">
                 </label>
 
@@ -2424,40 +2151,40 @@
                     <!-- LIGHT SIDEBAR -->
                     <input class="form-check-input d-none" data-attribute="data-sidebar" name="sidebar-color" value="light-sidebar" type="radio" id="sidebar-color-light" checked>
                     <label for="sidebar-color-light" class="switcher-card w-100 active" data-sidebar="light-sidebar">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-20px bg-white border-bottom d-block"></span>
-                      <span class="h-100 bg-white d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-20px bg-white border-bottom d-block"></span>
+                    <span class="h-100 bg-white d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Light</span>
                     </label>
                 </div>
@@ -2466,40 +2193,40 @@
                     <!-- DARK SIDEBAR -->
                     <input class="form-check-input d-none" data-attribute="data-sidebar" name="sidebar-color" value="dark-sidebar" type="radio" id="sidebar-color-dark">
                     <label for="sidebar-color-dark" class="switcher-card w-100" data-sidebar="dark-sidebar">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-20px bg-dark border-bottom d-block"></span>
-                      <span class="h-100 bg-dark d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-20px bg-dark border-bottom d-block"></span>
+                    <span class="h-100 bg-dark d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Dark</span>
                     </label>
                 </div>
@@ -2508,40 +2235,40 @@
                     <!-- GRADIENT SIDEBAR -->
                     <input class="form-check-input d-none" data-attribute="data-sidebar" name="sidebar-color" value="gradient-sidebar" type="radio" id="sidebar-color-gradient">
                     <label for="sidebar-color-gradient" class="switcher-card w-100" data-sidebar="gradient-sidebar">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Gradient</span>
                     </label>
                 </div>
@@ -2557,40 +2284,40 @@
                     <!-- STICKY -->
                     <input class="form-check-input d-none" data-attribute="data-nav-position" name="navbarPositionsOption" value="sticky" type="radio" id="navbarPositionsSticky">
                     <label for="navbarPositionsSticky" class="switcher-card w-100 active" data-nav-position="sticky">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Sticky</span>
                     </label>
                 </div>
@@ -2598,40 +2325,40 @@
                     <!-- STATIC -->
                     <input class="form-check-input d-none" data-attribute="data-nav-position" name="navbarPositionsOption" value="static" type="radio" id="navbarPositionsStatic">
                     <label for="navbarPositionsStatic" class="switcher-card w-100" data-nav-position="static">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Static</span>
                     </label>
                 </div>
@@ -2639,32 +2366,32 @@
                     <!-- HIDDEN -->
                     <input class="form-check-input d-none" data-attribute="data-nav-position" name="navbarPositionsOption" value="hidden" type="radio" id="navbarPositionsHidden">
                     <label for="navbarPositionsHidden" class="switcher-card w-100" data-nav-position="hidden">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Hidden</span>
                     </label>
                 </div>
@@ -2679,40 +2406,40 @@
                     <!-- DEFAULT -->
                     <input class="form-check-input d-none" data-attribute="data-nav-type" name="navbarTypeOption" value="default" type="radio" id="data-nav-default" checked>
                     <label for="data-nav-default" class="switcher-card w-100 active" data-nav-type="default">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Default</span>
                     </label>
                 </div>
@@ -2720,40 +2447,40 @@
                     <!-- DARK -->
                     <input class="form-check-input d-none" data-attribute="data-nav-type" name="navbarTypeOption" value="dark" type="radio" id="data-nav-dark">
                     <label for="data-nav-dark" class="switcher-card w-100" data-nav-type="dark">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between bg-dark">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between bg-dark">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Dark</span>
                     </label>
                 </div>
@@ -2761,40 +2488,40 @@
                     <!-- GLASS -->
                     <input class="form-check-input d-none" data-attribute="data-nav-type" name="navbarTypeOption" value="glass" type="radio" id="data-nav-glass">
                     <label for="data-nav-glass" class="switcher-card w-100" data-nav-type="glass">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
                         <span class="h-6px bg-light rounded d-block mb-1"></span>
                       </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
                     </span>
-                    <span class="d-flex flex-column flex-grow-1">
-                      <span class="px-2 h-20px bg-light border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-12px h-12px bg-secondary-subtle rounded-pill"></span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 h-20px bg-light border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
                       </span>
-                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                        <span class="p-2">
-                          <span class="w-25 d-block rounded-1 h-6px mb-1"></span>
-                          <span class="w-50 d-block rounded-1 h-6px mb-1"></span>
-                          <span class="w-100 d-block rounded-1 h-6px mb-1"></span>
-                          <span class="w-75 d-block rounded-1 h-6px mb-1"></span>
-                          <span class="w-25 d-block rounded-1 h-6px mb-1"></span>
-                        </span>
-                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      <span class="w-12px h-12px bg-secondary-subtle rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block rounded-1 h-6px mb-1"></span>
                       </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
                     </span>
                   </span>
                 </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Glass</span>
                     </label>
                 </div>
@@ -2835,30 +2562,30 @@
             <div class="list-group flex-row gap-3 mb-3 template-customizer mb-5">
                 <!-- SM -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">SM</span>
-                </span>
-                <input type="radio" data-attribute="data-font-size" class="form-check-input cursor-pointer ms-auto" name="font-size-options" value="sm">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">SM</span>
               </span>
+              <input type="radio" data-attribute="data-font-size" class="form-check-input cursor-pointer ms-auto" name="font-size-options" value="sm">
+            </span>
                 </label>
                 <!-- MD -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">MD</span>
-                </span>
-                <input type="radio" data-attribute="data-font-size" class="form-check-input cursor-pointer ms-auto" name="font-size-options" value="md">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">MD</span>
               </span>
+              <input type="radio" data-attribute="data-font-size" class="form-check-input cursor-pointer ms-auto" name="font-size-options" value="md">
+            </span>
                 </label>
                 <!-- LG -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">LG</span>
-                </span>
-                <input type="radio" data-attribute="data-font-size" class="form-check-input cursor-pointer ms-auto" name="font-size-options" value="lg">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">LG</span>
               </span>
+              <input type="radio" data-attribute="data-font-size" class="form-check-input cursor-pointer ms-auto" name="font-size-options" value="lg">
+            </span>
                 </label>
             </div>
 
@@ -2869,48 +2596,48 @@
             <div class="list-group flex-row flex-wrap flex-sm-nowrap gap-3 mb-3 template-customizer mb-5">
                 <!-- XS -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">XS</span>
-                </span>
-                <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="xs">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">XS</span>
               </span>
+              <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="xs">
+            </span>
                 </label>
                 <!-- SM -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">SM</span>
-                </span>
-                <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="sm">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">SM</span>
               </span>
+              <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="sm">
+            </span>
                 </label>
                 <!-- MD -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">MD</span>
-                </span>
-                <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="md">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">MD</span>
               </span>
+              <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="md">
+            </span>
                 </label>
                 <!-- LG -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">LG</span>
-                </span>
-                <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="lg">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">LG</span>
               </span>
+              <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="lg">
+            </span>
                 </label>
                 <!-- XL -->
                 <label class="list-group-item form-check rounded mb-0">
-              <span class="d-flex flex-fill my-1">
-                <span class="form-check-label d-flex">
-                  <span class="fw-semibold">XL</span>
-                </span>
-                <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="xl">
+            <span class="d-flex flex-fill my-1">
+              <span class="form-check-label d-flex">
+                <span class="fw-semibold">XL</span>
               </span>
+              <input type="radio" data-attribute="data-layout-rounded" class="form-check-input cursor-pointer ms-auto" name="rounded-options" value="xl">
+            </span>
                 </label>
             </div>
 
@@ -2923,133 +2650,6 @@
                         <!-- FLUID -->
                         <input class="form-check-input d-none" data-attribute="data-layout-container" name="layoutsContainer" value="fluid" type="radio" id="fluidLayouts" checked>
                         <label for="fluidLayouts" class="switcher-card w-100 active" data-layout-container="fluid">
-                  <span class="border d-block rounded h-100px overflow-hidden">
-                    <span class="d-flex h-100">
-                      <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Default</span>
-                        </label>
-                    </div>
-                    <div class="col-4">
-                        <!-- BOXED -->
-                        <input class="form-check-input d-none" data-attribute="data-layout-container" name="layoutsContainer" value="boxed" type="radio" id="boxedLayouts">
-                        <label for="boxedLayouts" class="switcher-card w-100" data-layout-container="boxed">
-                  <span class="border d-block rounded h-100px overflow-hidden bg-secondary-subtle">
-                    <span class="d-flex h-100 mx-3 bg-white">
-                      <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                        <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                        <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                          <span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                            <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          </span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                      </span>
-                      <span class="d-flex flex-column flex-grow-1">
-                        <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                          <span class="d-flex align-items-center gap-1">
-                            <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                            <span class="w-8px h-8px bg-success rounded-pill"></span>
-                            <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                          </span>
-                          <span class="w-8px h-8px bg-light rounded-pill"></span>
-                        </span>
-                        <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
-                          <span class="p-2">
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
-                            <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
-                          </span>
-                          <span class="w-100 bg-light h-6px ms-1"></span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Boxed</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PAGE_LOADER -->
-            <h6 class="mb-2 fs-5">Loader Options</h6>
-            <p class="text-muted">Sets the page loader visibility: hidden or visible.</p>
-            <div class="row g-4">
-                <div class="col-4">
-                    <!-- VISIBLE -->
-                    <input class="form-check-input d-none" data-attribute="data-page-loader" name="page-loader" value="visible" type="radio" id="page-loader-visible">
-                    <label for="page-loader-visible" class="switcher-card w-100" data-page-loader="visible">
-                <span class="border d-block rounded h-100px overflow-hidden">
-                  <span class="d-flex h-100">
-                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
-                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
-                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
-                        <span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                          <span class="h-6px bg-light rounded d-block mb-1"></span>
-                        </span>
-                        <span class="h-6px bg-light rounded d-block mb-1"></span>
-                      </span>
-                    </span>
-                    <span class="d-flex flex-column flex-grow-1 h-100">
-                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
-                        <span class="d-flex align-items-center gap-1">
-                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
-                          <span class="w-8px h-8px bg-success rounded-pill"></span>
-                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
-                        </span>
-                        <span class="w-8px h-8px bg-light rounded-pill"></span>
-                      </span>
-                      <span class="h-100 d-flex flex-column justify-content-center align-items-center gap-3">
-                        <span id="status" class="d-flex align-items-center justify-content-center">
-                          <span class="spinner-border text-primary avatar-xxs m-auto" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                </span>
-                        <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Loader</span>
-                    </label>
-                </div>
-                <div class="col-4">
-                    <!-- HIDDEN -->
-                    <input class="form-check-input d-none" data-attribute="data-page-loader" name="page-loader" value="hidden" type="radio" id="page-loader-hidden">
-                    <label for="page-loader-hidden" class="switcher-card w-100" data-page-loader="hidden">
                 <span class="border d-block rounded h-100px overflow-hidden">
                   <span class="d-flex h-100">
                     <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
@@ -3084,10 +2684,141 @@
                     </span>
                   </span>
                 </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Default</span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <!-- BOXED -->
+                        <input class="form-check-input d-none" data-attribute="data-layout-container" name="layoutsContainer" value="boxed" type="radio" id="boxedLayouts">
+                        <label for="boxedLayouts" class="switcher-card w-100" data-layout-container="boxed">
+                <span class="border d-block rounded h-100px overflow-hidden bg-secondary-subtle">
+                  <span class="d-flex h-100 mx-3 bg-white">
+                    <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                      <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                      <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                        <span>
+                          <span class="h-6px bg-light rounded d-block mb-1"></span>
+                          <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        </span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                    </span>
+                    <span class="d-flex flex-column flex-grow-1">
+                      <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                        <span class="d-flex align-items-center gap-1">
+                          <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                          <span class="w-8px h-8px bg-success rounded-pill"></span>
+                          <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                        </span>
+                        <span class="w-8px h-8px bg-light rounded-pill"></span>
+                      </span>
+                      <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                        <span class="p-2">
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                          <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        </span>
+                        <span class="w-100 bg-light h-6px ms-1"></span>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                            <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Boxed</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE_LOADER -->
+            <h6 class="mb-2 fs-5">Loader Options</h6>
+            <p class="text-muted">Sets the page loader visibility: hidden or visible.</p>
+            <div class="row g-4">
+                <div class="col-4">
+                    <!-- VISIBLE -->
+                    <input class="form-check-input d-none" data-attribute="data-page-loader" name="page-loader" value="visible" type="radio" id="page-loader-visible">
+                    <label for="page-loader-visible" class="switcher-card w-100" data-page-loader="visible">
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
+                    </span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1 h-100">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                      </span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 d-flex flex-column justify-content-center align-items-center gap-3">
+                      <span id="status" class="d-flex align-items-center justify-content-center">
+                        <span class="spinner-border text-primary avatar-xxs m-auto" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </span>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </span>
+                        <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Loader</span>
+                    </label>
+                </div>
+                <div class="col-4">
+                    <!-- HIDDEN -->
+                    <input class="form-check-input d-none" data-attribute="data-page-loader" name="page-loader" value="hidden" type="radio" id="page-loader-hidden">
+                    <label for="page-loader-hidden" class="switcher-card w-100" data-page-loader="hidden">
+              <span class="border d-block rounded h-100px overflow-hidden">
+                <span class="d-flex h-100">
+                  <span class="w-30px d-flex flex-column h-100 flex-shrink-0 border-end">
+                    <span class="h-16px flex-shrink-0 bg-light d-block"></span>
+                    <span class="h-100 flex-grow-1 bg-primary-subtle d-flex flex-column justify-content-between p-1">
+                      <span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                        <span class="h-6px bg-light rounded d-block mb-1"></span>
+                      </span>
+                      <span class="h-6px bg-light rounded d-block mb-1"></span>
+                    </span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-1">
+                    <span class="px-2 flex-shrink-0 h-16px border-bottom d-flex align-items-center gap-3 justify-content-between">
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="w-8px h-8px bg-danger rounded-pill"></span>
+                        <span class="w-8px h-8px bg-success rounded-pill"></span>
+                        <span class="w-8px h-8px bg-warning rounded-pill"></span>
+                      </span>
+                      <span class="w-8px h-8px bg-light rounded-pill"></span>
+                    </span>
+                    <span class="h-100 flex-grow-1 d-flex flex-column justify-content-between gap-1">
+                      <span class="p-2">
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-50 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-100 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-75 d-block bg-light rounded-1 h-6px mb-1"></span>
+                        <span class="w-25 d-block bg-light rounded-1 h-6px mb-1"></span>
+                      </span>
+                      <span class="w-100 bg-light h-6px ms-1"></span>
+                    </span>
+                  </span>
+                </span>
+              </span>
                         <span class="d-block shadow-none fs-12 fw-semibold text-center pt-2">Disable</span>
                     </label>
                 </div>
             </div>
+        </div>
+        <div class="offcanvas-header border-top hstack gap-3 justify-content-center">
+            <button type="button" id="resetSettings" class="btn btn-dark">Reset Layouts</button>
+            <button type="button" class="btn btn-danger">Buy Now</button>
         </div>
     </div>
 </div>
@@ -3103,7 +2834,6 @@
 </div>
 <!-- END scroll top -->
 @include('components.footer')
-
 
 <!-- JAVASCRIPT -->
 <script src="{{ asset('assets/js/sidebar.js') }}"></script>

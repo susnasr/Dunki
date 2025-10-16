@@ -3,42 +3,51 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Applications | Dunki</title>
+    <title>Dunki | The ultimate way to get outta country</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it\'s perfect for web developers.">
+    <meta name="description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it's perfect for web developers.">
     <meta name="keywords" content="Herozi bootstrap dashboard, bootstrap, bootstrap 5, html dashboard, web dashboard, admin themes, web design, figma, web development, fullcalendar, datatables, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dark mode, bootstrap button, frontend dashboard, responsive bootstrap theme">
     <meta content="SRBThemes" name="author">
-    <link rel="shortcut icon" href="assets/images/Favicon.png">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
 
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Herozi - Bootstrap Admin & Dashboard Template">
-    <meta property="og:description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it\'s perfect for web developers.">
+    <meta property="og:description" content="Herozi is the top-selling Bootstrap 5 admin dashboard template. With Dark Mode, multi-demo options, RTL support, and lifetime updates, it's perfect for web developers.">
     <meta property="og:url" content="https://themeforest.net/user/srbthemes/portfolio">
     <meta property="og:site_name" content="Herozi by SRBThemes">
-    <!-- DataTables Select CSS -->
-    <link rel="stylesheet" href="../../../cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="../../../cdn.datatables.net/select/1.6.0/css/select.dataTables.min.css">
-    <link href="../../../cdn.jsdelivr.net/npm/jquery-datatables-checkboxes%401.3.0/css/dataTables.checkboxes.min.css" rel="stylesheet">
-    <!-- Layout JS -->
-    <script src="assets/js/layout/layout-default.js"></script>
 
-    <script src="assets/js/layout/layout.js"></script>
+    <!-- External CDN CSS (keep as is, no need to wrap with asset) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.0/css/select.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/jquery-datatables-checkboxes@1.3.0/css/dataTables.checkboxes.min.css" rel="stylesheet">
+
+    <!-- Layout JS -->
+    <script src="{{ asset('assets/js/layout/layout-default.js') }}"></script>
+    <script src="{{ asset('assets/js/layout/layout.js') }}"></script>
 
     <!-- Choice Css -->
-    <link rel="stylesheet" href="assets/libs/choices.js/public/assets/styles/choices.min.css">
-    <!-- Simplebar Css -->
-    <link href="assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
-    <!--icons css-->
-    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css">
-    <!-- Sweet Alert -->
-    <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
-    <!-- Bootstrap Css -->
-    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <!-- App Css-->
-    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/libs/choices.js/public/assets/styles/choices.min.css') }}">
 
-    <link href="assets/css/custom.min.css" id="custom-style" rel="stylesheet" type="text/css">
+    <!-- Simplebar Css -->
+    <link href="{{ asset('assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet">
+
+    <!-- Icons CSS -->
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+
+    <!-- Sweet Alert -->
+    <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
+
+    <!-- Custom Css -->
+    <link href="{{ asset('assets/css/custom.min.css') }}" id="custom-style" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -51,11 +60,12 @@
     <aside class="app-sidebar">
         <!-- START BRAND LOGO -->
         <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-            <a href="index.html">
-                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="assets/images/light-logo.png">
-                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
+            <a href="{{ url('/') }}">
+                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
+                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
             </a>
         </div>
+
         <!-- END BRAND LOGO -->
         <nav class="app-sidebar-menu nav nav-pills flex-column fs-6" id="sidebarMenu" aria-label="Main navigation">
             <ul class="main-menu" id="all-menu-items" role="menu">
@@ -2905,34 +2915,40 @@
     <!-- END Footer -->
 
     <!-- JAVASCRIPT -->
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/js/pages/scroll-top.init.js"></script>
-    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
-    <!-- jquery cdn -->
-    <script src="../../../code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
+    <script src="{{ asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/scroll-top.init.js') }}"></script>
+    <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    <!-- Datatable js -->
-    <script src="../../../cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="../../../cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="../../../cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <script src="../../../cdn.jsdelivr.net/npm/jquery-datatables-checkboxes%401.3.0/js/dataTables.checkboxes.min.js"></script>
-    <script src="../../../cdn.datatables.net/select/1.6.0/js/dataTables.select.min.js"></script>
+    <!-- jQuery (CDN + Integrity + SRI) -->
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
+    </script>
 
-    <!-- Countup init -->
-    <script type="module" src="assets/js/pages/countup.init.js"></script>
+    <!-- DataTables Core + Extensions -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.6.0/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-datatables-checkboxes@1.3.0/js/dataTables.checkboxes.min.js"></script>
 
-    <!-- ApexChat js -->
-    <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/js/charts/apexcharts-config.init.js"></script>
+    <!-- ApexCharts (local preferred) -->
+    <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-    <!-- Calendar init -->
-    <script src="assets/js/apps/invoices/apps-invoice-manager.init.js"></script>
+    <!-- Chart configs -->
+    <script src="{{ asset('assets/js/charts/apexcharts-config.init.js') }}"></script>
 
-    <!-- App js -->
-    <script type="module" src="assets/js/app.js"></script>
+    <!-- Dashboard init (only keep the correct one) -->
+    <script src="{{ asset('assets/js/dashboards/dashboard-ecommerce.init.js') }}"></script>
+    <!-- OR -->
+    <!-- <script src="{{ asset('assets/js/pages/dashboard-ecommerce.init.js') }}"></script> -->
+
+    <!-- App JS -->
+    <script type="module" src="{{ asset('assets/js/app.js') }}"></script>
 
 </body>
 

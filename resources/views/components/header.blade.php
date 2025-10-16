@@ -330,9 +330,41 @@
                                 </ul>
                             </div>
 
-                            <a class="dropdown-item" href="{{ route('students.show', auth()->user()->clientProfile->id ?? 'profile') }}">Profile</a>
-                            <a class="dropdown-item" href="{{ route('applications.index') }}">Applications</a>
-                            <a class="dropdown-item" href="{{ route('tasks.index') }}">My Tasks</a>
+                            {{-- Profile --}}
+                            <a class="dropdown-item" href="{{ route('profile.show') }}">
+                                <i class="ri-user-line me-2"></i> Profile
+                            </a>
+
+                            {{-- Applications (only show for Student or HR) --}}
+                            @php
+                                $role = auth()->user()->user_type;
+                            @endphp
+
+
+                            {{-- Applications --}}
+                            @if($role === 'student')
+                                <a class="dropdown-item" href="{{ route('applications.index') }}"><i class="ri-file-list-line me-2"></i>
+                                    Applications</a>
+                            @elseif($role === 'hr')
+                                <a class="dropdown-item" href="{{ route('hr.applications.index') }}"><i class="ri-file-list-line me-2"></i>Applications</a>
+                            @elseif($role === 'admin')
+                                <a class="dropdown-item" href="{{ route('applications.index') }}"><i class="ri-file-list-line me-2"></i>Applications</a>
+                            @endif
+
+                            {{-- Tasks (for HR, Consultant, or Student) --}}
+                            @if(in_array($role, ['hr', 'consultant', 'student']))
+                                <a class="dropdown-item" href="{{ route('tasks.index') }}">
+                                    <i class="ri-task-line me-2"></i> My Tasks
+                                </a>
+                            @endif
+
+                            {{-- Admin Panel (only for admin) --}}
+                            @if($role === 'admin')
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                    <i class="ri-dashboard-line me-2"></i> Admin Dashboard
+                                </a>
+                            @endif
+
 
                             <div class="dropdown-divider"></div>
 

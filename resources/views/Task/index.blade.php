@@ -53,9 +53,9 @@
     <aside class="app-sidebar">
         <!-- START BRAND LOGO -->
         <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-            <a href="index.html">
-                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="assets/images/light-logo.png">
-                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
+            <a href="{{ url('/') }}">
+                <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
+                <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
             </a>
         </div>
         <!-- END BRAND LOGO -->
@@ -809,12 +809,13 @@
     <div class="offcanvas offcanvas-md offcanvas-start small-screen-sidebar" data-bs-scroll="true" tabindex="-1" id="smallScreenSidebar" aria-labelledby="smallScreenSidebarLabel">
         <div class="offcanvas-header hstack border-bottom">
             <!-- START BRAND LOGO -->
-            <div class="app-sidebar-logo">
+            <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
                 <a href="{{ route('home') }}">
-                    <img height="35" class="app-sidebar-logo-default h-25px" alt="Logo" src="assets/images/light-logo.png">
-                    <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="assets/images/Favicon.png">
+                    <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
+                    <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
                 </a>
             </div>
+
             <button type="button" class="btn-close bg-transparent" data-bs-dismiss="offcanvas" aria-label="Close">
                 <i class="ri-close-line"></i>
             </button>
