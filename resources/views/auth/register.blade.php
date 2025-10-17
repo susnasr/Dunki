@@ -114,7 +114,7 @@
                         <!-- Phone -->
                         <div class="mb-4">
                             <label class="form-label" for="phone">Phone Number</label>
-                            <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Optional phone number">
+                            <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="phone number">
                         </div>
 
                         <!-- User Type -->

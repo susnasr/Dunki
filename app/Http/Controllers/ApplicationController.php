@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
+
+
+    public function create()
+    {
+        return view('applications.create');
+    }
     public function index()
     {
         $applications = Application::with('client.user')->paginate(10); // Add dynamic data here
