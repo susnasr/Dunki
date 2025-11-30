@@ -120,10 +120,42 @@
 
 <main class="app-wrapper">
     <div class="app-container">
-        {{--
-            👇 THIS IS THE MAGIC PART
-            This tells Laravel: "Put the specific page content right here."
-        --}}
+
+        {{-- ✅ GLOBAL ALERTS START HERE --}}
+
+        {{-- 1. Success Message --}}
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+                <i class="ri-checkbox-circle-line me-2 align-middle fs-5"></i>
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- 2. Error Message (This is what you were missing!) --}}
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+                <i class="ri-error-warning-line me-2 align-middle fs-5"></i>
+                <strong>Hold on!</strong> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- 3. Validation Errors --}}
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+                <i class="ri-close-circle-line me-2 align-middle fs-5"></i>
+                <strong>Please check the form:</strong>
+                <ul class="mb-0 mt-1 ps-3">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        {{-- ✅ GLOBAL ALERTS END --}}
+
         @yield('content')
     </div>
 </main>

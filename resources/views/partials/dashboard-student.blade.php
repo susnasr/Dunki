@@ -21,12 +21,28 @@
                                 </div>
                             </div>
 
+                            {{-- SMART BUTTON LOGIC --}}
+                            @php
+                                $user = Auth::user();
+                                // Check if the basic text fields are done
+                                $basicProfileDone = $user->phone && $user->country && $user->location && $user->profile_pic;
+                            @endphp
+
                             @if($profileCompletion < 100)
-                                <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-sm rounded-pill px-3">
-                                    <i class="ri-user-settings-line align-middle me-1"></i> Complete Profile
-                                </a>
+                                @if(!$basicProfileDone)
+                                    {{-- Step 1: Finish Basic Info --}}
+                                    <a href="{{ route('profile.edit') }}" class="btn btn-warning btn-sm rounded-pill px-3 shadow-sm">
+                                        <i class="ri-user-settings-line align-middle me-1"></i> Complete Basic Info
+                                    </a>
+                                @else
+                                    {{-- Step 2: Upload Documents (The part you were missing!) --}}
+                                    <a href="{{ route('files.index') }}" class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                        <i class="ri-upload-cloud-2-line align-middle me-1"></i> Upload Documents
+                                    </a>
+                                @endif
                             @else
-                                <a href="{{ route('universities.index') }}" class="btn btn-success btn-sm rounded-pill px-3">
+                                {{-- Step 3: Apply --}}
+                                <a href="{{ route('universities.index') }}" class="btn btn-success btn-sm rounded-pill px-3 shadow-sm">
                                     <i class="ri-search-line align-middle me-1"></i> Find Universities
                                 </a>
                             @endif

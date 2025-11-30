@@ -57,7 +57,9 @@
                             </td>
                             <td>${{ number_format($uni->tuition_fee) }}</td>
                             <td class="text-end pe-4">
-                                <a href="#!" class="btn btn-sm btn-light"><i class="ri-pencil-line"></i></a>
+                                <a href="{{ route('admin.universities.edit', $uni->id) }}" class="btn btn-sm btn-soft-secondary">
+                                    <i class="ri-pencil-line"></i>
+                                </a>
                                 <button class="btn btn-sm btn-light text-danger"><i class="ri-delete-bin-line"></i></button>
                             </td>
                         </tr>

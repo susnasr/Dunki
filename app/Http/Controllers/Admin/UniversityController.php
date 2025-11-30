@@ -55,5 +55,26 @@ class UniversityController extends Controller
         return back()->with('success', $uni->name . ' has been imported successfully!');
     }
 
+    public function edit(University $university)
+    {
+        return view('admin.universities.edit', compact('university'));
+    }
+
+    // 5. Update the Database
+    public function update(Request $request, University $university)
+    {
+        $request->validate([
+            'name' => 'required',
+            'country' => 'required',
+            'tuition_fee' => 'nullable|numeric',
+            'ranking' => 'nullable|integer',
+        ]);
+
+        $university->update($request->all());
+
+        return redirect()->route('admin.universities.index')
+            ->with('success', 'University details updated successfully!');
+    }
+
     // We will add create/store/import methods here later
 }
