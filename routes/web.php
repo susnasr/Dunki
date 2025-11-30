@@ -5,9 +5,11 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController; // 🟩 new controller
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\UniversityController;
 
 // ==========================================
 // Default Home (Dashboard redirects by role)
@@ -17,7 +19,7 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 // ==========================================
 // Authentication Routes
 // ==========================================
-Auth::routes();
+Auth::routes(['register' => true]);
 
 // ==========================================
 // UNIVERSAL PROFILE ROUTES
@@ -35,6 +37,8 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
     Route::resource('applications', ApplicationController::class)->except(['show']);
     Route::resource('files', FileController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::get('/universities', [UniversityController::class, 'index'])->name('universities.index');
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 
 Route::middleware(['auth', 'role:hr'])->group(function () {
@@ -51,9 +55,16 @@ Route::middleware(['auth', 'role:consultant'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
     Route::resource('students', StudentController::class);
+    Route::get('admin/universities/import', [\App\Http\Controllers\Admin\UniversityController::class, 'import'])->name('admin.universities.import');
+    Route::post('admin/universities/import', [\App\Http\Controllers\Admin\UniversityController::class, 'importSearch'])->name('admin.universities.search');
+    Route::post('admin/universities/store-api', [\App\Http\Controllers\Admin\UniversityController::class, 'storeApi'])->name('admin.universities.storeApi');
+    Route::resource('admin/universities', \App\Http\Controllers\Admin\UniversityController::class)
+        ->names('admin.universities');
 });
 
 // ==========================================
 // API ROUTES
 // ==========================================
 Route::get('/api/orders', [DashboardController::class, 'getOrders'])->middleware('auth');
+
+

@@ -1630,20 +1630,6 @@
                         @enderror
                     </div>
 
-                    <!-- User Type -->
-                    <div class="mb-4">
-                        <label class="form-label" for="user_type">Select Role <span class="text-danger">*</span></label>
-                        <select class="form-select" name="user_type" required>
-                            <option value="">-- Choose your role --</option>
-                            <option value="admin" {{ old('user_type', auth()->user()->user_type) == 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="hr" {{ old('user_type', auth()->user()->user_type) == 'hr' ? 'selected' : '' }}>HR</option>
-                            <option value="visa_consultant" {{ old('user_type', auth()->user()->user_type) == 'visa_consultant' ? 'selected' : '' }}>Visa Consultant</option>
-                            <option value="travel_agent" {{ old('user_type', auth()->user()->user_type) == 'travel_agent' ? 'selected' : '' }}>Travel Agent</option>
-                            <option value="academic_advisor" {{ old('user_type', auth()->user()->user_type) == 'academic_advisor' ? 'selected' : '' }}>Academic Advisor</option>
-                            <option value="student" {{ old('user_type', auth()->user()->user_type) == 'student' ? 'selected' : '' }}>Student</option>
-                        </select>
-                    </div>
-
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
                         <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', auth()->user()->phone) }}" required>
@@ -2850,10 +2836,7 @@
           </div>
         </div>
       </div>
-      <div class="offcanvas-header border-top hstack gap-3 justify-content-center">
-        <button type="button" id="resetSettings" class="btn btn-dark">Reset Layouts</button>
-        <button type="button" class="btn btn-danger">Buy Now</button>
-      </div>
+
     </div>
   </div>
   <!-- END SWITCHER -->

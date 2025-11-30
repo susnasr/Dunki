@@ -2888,10 +2888,7 @@
                 </div>
             </div>
         </div>
-        <div class="offcanvas-header border-top hstack gap-3 justify-content-center">
-            <button type="button" id="resetSettings" class="btn btn-dark">Reset Layouts</button>
-            <button type="button" class="btn btn-danger">Buy Now</button>
-        </div>
+
     </div>
 </div>
 <!-- END SWITCHER -->

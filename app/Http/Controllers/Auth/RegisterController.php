@@ -15,9 +15,6 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     */
     protected $redirectTo = '/';
 
     public function __construct()
@@ -25,84 +22,67 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Show the application registration form.
-     */
     public function showRegistrationForm()
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle registration request.
-     */
+    // Optional: You can remove this override if you want — the trait works fine
+    // But keeping it clean and safe
     public function register(Request $request)
     {
-//        dd('Controller hit! Data: ', $request->all(), 'Files: ', $request->file('profile_pic'));  // ← TEMP DEBUG
-
-        // 🧩 Step 2: Validate input
         $this->validator($request->all())->validate();
 
-        // 📸 Step 3: Handle profile picture upload
-        $profilePicPath = null;
-        if ($request->hasFile('profile_pic') && $request->file('profile_pic')->isValid()) {
-            $profilePicPath = $request->file('profile_pic')->store('avatars', 'public');
-        }
+        $user = $this->create($request->all());
 
-        // 👤 Step 4: Create the user and fire event
-        event(new Registered($user = $this->create(
-            array_merge($request->all(), ['profile_pic' => $profilePicPath])
-        )));
-
-        // 🔐 Step 5: Log the user in automatically
+        event(new Registered($user));
         $this->guard()->login($user);
 
-        // 🏠 Step 6: Redirect to home page with success flash message
-        return redirect($this->redirectTo)->with('success', 'Account created successfully!');
+        return redirect($this->redirectTo)->with('success', 'Welcome to Dunki!');
     }
 
-
-    /**
-     * Validation rules.
-     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'user_type' => ['required', 'in:admin,hr,visa_consultant,travel_agent,academic_advisor,student'],
-            'country' => ['required', 'string'],
-            'location' => ['required', 'string', 'max:255'],
-            'profile_pic' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'phone' => ['nullable', 'string', 'max:20'],
-        ]);
+            'name'       => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'   => ['required', 'string', 'min:8', 'confirmed'],
+            'country'    => ['required', 'string', 'max:255'],
+            'location'   => ['required', 'string', 'max:255'],
+            'phone'      => ['nullable', 'string', 'max:20'],
+            'profile_pic' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],        ]);
     }
 
-    /**
-     * Create a new user instance after validation.
-     */
     protected function create(array $data)
     {
+        // Handle profile picture safely — only if it's actually an uploaded file
+        $profilePicPath = null;
+
+        if (
+            isset($data['profile_pic']) &&
+            $data['profile_pic'] instanceof \Illuminate\Http\UploadedFile &&
+            $data['profile_pic']->isValid()
+        ) {
+            $profilePicPath = $data['profile_pic']->store('avatars', 'public');
+        }
+
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'user_type' => $data['user_type'],
-            'phone' => $data['phone'] ?? null,
-            'country' => $data['country'],
-            'location' => $data['location'],
-            'profile_pic' => $data['profile_pic'] ?? null,
-            'is_active' => true,
+            'name'        => $data['name'],
+            'email'       => $data['email'],
+            'password'    => Hash::make($data['password']),
+            'user_type'   => 'student',           // Always student
+            'phone'       => $data['phone'] ?? null,
+            'country'     => $data['country'],
+            'location'    => $data['location'],
+            'profile_pic' => $profilePicPath,
+            'is_active'   => true,
         ]);
 
-        // ✅ Auto-create client profile for students
-        if ($data['user_type'] === 'student') {
-            ClientProfile::create([
-                'user_id' => $user->id,
-                'country_preference' => $data['country'],
-            ]);
-        }
+        // Auto-create client profile for students
+        ClientProfile::create([
+            'user_id'           => $user->id,
+            'country_preference'=> $data['country'],
+        ]);
 
         return $user;
     }
