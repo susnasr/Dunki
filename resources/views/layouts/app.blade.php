@@ -45,7 +45,6 @@
                 <li class="menu-title">Work Space</li>
 
                 <li class="slide">
-                    {{-- We will update this route next --}}
                     <a href="{{ route('academic.dashboard') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-dashboard-line"></i></span>
                         <span class="side-menu__label">Advisor Dashboard</span>
@@ -53,8 +52,8 @@
                 </li>
 
                 <li class="slide">
-                    {{-- A dedicated list of all applications to review --}}
-                    <a href="#!" class="side-menu__item">
+                    {{-- ✅ FIX: Point to the INDEX route, not the Dashboard --}}
+                    <a href="{{ route('applications.index') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-file-list-3-line"></i></span>
                         <span class="side-menu__label">Review Applications</span>
                         <span class="badge bg-danger ms-auto">New</span>

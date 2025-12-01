@@ -60,7 +60,7 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">Incoming Applications</h5>
+            <h5 class="card-title mb-0">All Applications</h5>
             <button class="btn btn-sm btn-light"><i class="ri-filter-3-line"></i> Filter</button>
         </div>
         <div class="card-body p-0">

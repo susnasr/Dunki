@@ -30,8 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [\App\Http\Controllers\StudentController::class, 'update'])->name('profile.update');
 
-    // ✅ Application Details (Shared: Student sees own, Advisor sees all)
+    // ✅ SHARED APPLICATION ROUTES
+    // 1. List (Index) - Student sees own, Advisor sees all
+    Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+
+    // 2. Details (Show)
     Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+
+    // 3. Status Update (POST)
+    Route::post('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
 });
 
 // ==========================================
@@ -40,11 +47,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
 
-    // We remove 'show' here because we defined it above as a shared route
-    Route::resource('applications', ApplicationController::class)->except(['show']);
+    // ✅ FIX: Exclude 'index' and 'show' because they are in the Shared group now
+    Route::resource('applications', ApplicationController::class)->except(['index', 'show']);
 
     Route::resource('files', FileController::class)->only(['index', 'create', 'store', 'destroy']);
-    Route::get('/universities', [\App\Http\Controllers\UniversityController::class, 'index'])->name('universities.index');
+    Route::get('/universities', [UniversityController::class, 'index'])->name('universities.index');
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 

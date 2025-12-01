@@ -18,18 +18,33 @@ class ApplicationController extends Controller
     {
         $user = Auth::user();
 
-        $clientProfile = ClientProfile::where('user_id', $user->id)->first();
+        // 1. IF STUDENT: Show only their own apps
+        if ($user->user_type === 'student') {
+            $clientProfile = ClientProfile::where('user_id', $user->id)->first();
 
-        if (!$clientProfile) {
-            return redirect()->route('profile.edit')
-                ->with('error', 'Please complete your profile to view applications.');
+            if (!$clientProfile) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'Please complete your profile to view applications.');
+            }
+
+            $applications = Application::where('client_id', $clientProfile->id)
+                ->latest()
+                ->paginate(10);
         }
 
-        $applications = Application::where('client_id', $clientProfile->id)
+        // 2. IF ADVISOR OR ADMIN: Show ALL applications
+        elseif (in_array($user->user_type, ['academic_advisor', 'admin'])) {
+            $applications = Application::with('clientProfile.user') // Load student details
             ->latest()
-            ->paginate(10);
+                ->paginate(15);
+        }
 
-        return view('student.applications.index', compact('applications'));
+        // 3. OTHERS: Block
+        else {
+            abort(403, 'Access denied.');
+        }
+
+        return view('students.applications.index', compact('applications'));
     }
 
     /**
@@ -103,22 +118,22 @@ class ApplicationController extends Controller
     {
         $user = Auth::user();
 
-        // 1. If User is the STUDENT (Owner) -> Allow
+        // 🛡️ SECURITY & REDIRECT LOGIC
+
+        // 1. Student Access
         if ($user->user_type === 'student') {
-            $clientProfile = ClientProfile::where('user_id', $user->id)->first();
-            if ($application->client_id !== $clientProfile->id) {
-                abort(403, 'Unauthorized access.');
+            if ($application->clientProfile->user_id !== $user->id) abort(403);
+        }
+
+        // 2. Advisor Logic (YOUR REQUEST)
+        elseif ($user->user_type === 'academic_advisor') {
+
+            // ✅ IF APPLICATION IS ALREADY DONE -> REDIRECT TO DASHBOARD
+            // This prevents Advisors from wasting time on finished apps
+            if (in_array($application->status, ['approved', 'rejected'])) {
+                return redirect()->route('academic.dashboard')
+                    ->with('info', "Application #{$application->application_number} is already processed.");
             }
-        }
-
-        // 2. If User is ADVISOR or ADMIN -> Allow
-        elseif (in_array($user->user_type, ['academic_advisor', 'admin'])) {
-            // Advisors can view all applications for review
-        }
-
-        // 3. Anyone else -> Block
-        else {
-            abort(403, 'Unauthorized access.');
         }
 
         return view('student.applications.show', compact('application'));
@@ -126,6 +141,35 @@ class ApplicationController extends Controller
 
     public function create()
     {
-        return view('student.applications.create');
+        return view('students.applications.create');
+    }
+
+    public function updateStatus(Request $request, Application $application)
+    {
+        $user = Auth::user();
+
+        // 1. Security: Only Staff can change status
+        if (!in_array($user->user_type, ['academic_advisor', 'admin'])) {
+            abort(403, 'Only advisors can perform this action.');
+        }
+
+        // 2. Validate Input
+        $request->validate([
+            'status' => 'required|in:approved,rejected',
+            'reason' => 'nullable|string|max:500', // Only needed for rejection
+        ]);
+
+        // 3. Update Application
+        $application->update([
+            'status' => $request->status,
+            'notes'  => $request->reason, // Save the rejection reason if any
+            // 'assigned_to' => $user->id, // Optional: Lock this advisor to the case
+        ]);
+
+        $message = $request->status === 'approved'
+            ? 'Application approved! Student has been notified.'
+            : 'Application rejected. Feedback sent to student.';
+
+        return back()->with('success', $message);
     }
 }
