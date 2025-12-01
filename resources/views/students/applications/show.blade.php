@@ -5,11 +5,16 @@
     <!-- PAGE HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1">Application Details</h4>
-            <p class="text-muted mb-0">ID: <span class="fw-medium text-dark">#{{ $application->application_number }}</span></p>
+            @if(Auth::user()->user_type == 'academic_advisor')
+                <h4 class="fw-bold mb-1">Review Application <span class="badge bg-warning-subtle text-warning fs-12 align-middle border border-warning-subtle ms-2">Advisor Mode</span></h4>
+                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
+            @else
+                <h4 class="fw-bold mb-1">Application Details</h4>
+                <p class="text-muted mb-0">ID: <span class="fw-medium text-dark">#{{ $application->application_number }}</span></p>
+            @endif
         </div>
         <div>
-            {{-- Smart Back Button: Sends Advisor to Workspace, Student to Dashboard --}}
+            {{-- Smart Back Button --}}
             @if(Auth::user()->user_type == 'academic_advisor')
                 <a href="{{ route('academic.dashboard') }}" class="btn btn-white border shadow-sm">
                     <i class="ri-arrow-left-line me-1"></i> Back to Queue
@@ -23,15 +28,47 @@
     </div>
 
     <div class="row">
-        <!-- LEFT COLUMN: MAIN INFO -->
+        <!-- LEFT COLUMN -->
         <div class="col-lg-8">
 
-            <!-- 1. University Info -->
+            {{--
+                🛑 ADVISOR VIEW: Shows Applicant Info FIRST
+                Advisors need to verify the person before the university.
+            --}}
+            @if(Auth::user()->user_type != 'student')
+                <div class="card border-0 shadow-sm mb-4 border-top border-4 border-primary">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h6 class="card-title mb-0 fw-bold text-primary"><i class="ri-user-search-line me-1"></i> Applicant Profile</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <small class="text-muted text-uppercase fw-bold fs-11">Full Name</small>
+                                <p class="fw-bold mb-0 text-dark fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted text-uppercase fw-bold fs-11">Email Address</small>
+                                <p class="fw-medium mb-0">{{ $application->clientProfile->user->email ?? 'N/A' }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted text-uppercase fw-bold fs-11">Phone Number</small>
+                                <p class="fw-medium mb-0">{{ $application->clientProfile->user->phone ?? 'N/A' }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted text-uppercase fw-bold fs-11">Citizenship</small>
+                                <p class="fw-medium mb-0">{{ $application->clientProfile->user->country ?? 'N/A' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <!-- University Info (Context) -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-start">
-                        <div class="avatar-md bg-primary-subtle text-primary rounded d-flex align-items-center justify-content-center me-3">
-                            <i class="ri-bank-line fs-2"></i>
+                        <div class="avatar-md bg-light rounded d-flex align-items-center justify-content-center me-3">
+                            <i class="ri-bank-line fs-2 text-muted"></i>
                         </div>
                         <div class="flex-grow-1">
                             <h5 class="fw-bold mb-1">{{ $application->university_name }}</h5>
@@ -40,15 +77,15 @@
                             <div class="hstack gap-3 mt-3">
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Course</small>
-                                    <span class="fw-medium">{{ $application->course_name ?? 'General Admission' }}</span>
+                                    <span class="fw-medium text-dark">{{ $application->course_name ?? 'General Admission' }}</span>
                                 </div>
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Intake</small>
-                                    <span class="fw-medium">{{ $application->intake ?? 'Fall 2025' }}</span>
+                                    <span class="fw-medium text-dark">{{ $application->intake ?? 'Fall 2025' }}</span>
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">Type</small>
-                                    <span class="fw-medium">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
+                                    <span class="fw-medium text-dark">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -56,37 +93,13 @@
                 </div>
             </div>
 
-            <!-- 2. Applicant Info (Visible to Advisor) -->
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white py-3 border-bottom">
-                    <h6 class="card-title mb-0">Applicant Information</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <small class="text-muted text-uppercase fw-bold fs-11">Full Name</small>
-                            <p class="fw-medium mb-0">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <small class="text-muted text-uppercase fw-bold fs-11">Email Address</small>
-                            <p class="fw-medium mb-0">{{ $application->clientProfile->user->email ?? 'N/A' }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <small class="text-muted text-uppercase fw-bold fs-11">Phone Number</small>
-                            <p class="fw-medium mb-0">{{ $application->clientProfile->user->phone ?? 'N/A' }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <small class="text-muted text-uppercase fw-bold fs-11">Citizenship</small>
-                            <p class="fw-medium mb-0">{{ $application->clientProfile->user->country ?? 'N/A' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. Documents -->
+            <!-- Documents Review -->
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white py-3 border-bottom">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                     <h6 class="card-title mb-0">Attached Documents</h6>
+                    @if(Auth::user()->user_type != 'student')
+                        <span class="badge bg-light text-dark border">Verify these files</span>
+                    @endif
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -100,7 +113,6 @@
                             </thead>
                             <tbody>
                             @php
-                                // Fetch files belonging to the student
                                 $files = \App\Models\File::where('uploaded_by', $application->clientProfile->user_id)->get();
                             @endphp
 
@@ -132,60 +144,22 @@
 
         </div>
 
-        <!-- RIGHT COLUMN: STATUS & TIMELINE -->
+        <!-- RIGHT COLUMN -->
         <div class="col-lg-4">
 
             {{--
-                ✅ DYNAMIC STATUS BANNER logic
-                Changing colors based on decision
+                ✅ ADVISOR ACTION ZONE (Only for Staff)
+                This appears AT THE TOP for Advisors so they can take action immediately.
             --}}
-            @php
-                $statusColor = match($application->status) {
-                    'approved' => 'bg-success text-white',
-                    'rejected' => 'bg-danger text-white',
-                    default => 'bg-primary text-white' // submitted or under_review
-                };
-            @endphp
-
-                <!-- Status Card -->
-            <div class="card border-0 shadow-sm mb-4 {{ $statusColor }}">
-                <div class="card-body p-4">
-                    <h6 class="text-white-50 text-uppercase fs-11 fw-bold mb-2">Current Status</h6>
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="ri-loader-4-line fs-3 me-2 {{ $application->status == 'under_review' ? 'spin' : '' }}"></i>
-                        <h2 class="mb-0 fw-bold">{{ ucwords(str_replace('_', ' ', $application->status)) }}</h2>
-                    </div>
-
-                    @if($application->status == 'submitted')
-                        <p class="mb-0 small text-white-50">Your application has been received and is waiting for an advisor to review it.</p>
-                    @elseif($application->status == 'approved')
-                        <p class="mb-0 small text-white-50">Congratulations! Your application has been approved. Proceed to Visa steps.</p>
-                    @elseif($application->status == 'rejected')
-                        <p class="mb-0 small text-white-50">Please check the notes below for why your application was returned.</p>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Notes / Feedback (If Rejected) -->
-            @if($application->notes)
-                <div class="card border-0 shadow-sm mb-4 border-start border-4 border-danger">
-                    <div class="card-body">
-                        <h6 class="fw-bold text-danger mb-2">Advisor Feedback</h6>
-                        <p class="text-muted mb-0">{{ $application->notes }}</p>
-                    </div>
-                </div>
-            @endif
-
-            {{-- ================================================= --}}
-            {{-- 🛡️ ADVISOR ACTION ZONE (Only for Staff) --}}
-            {{-- HIDDEN if already approved or rejected --}}
-            {{-- ================================================= --}}
             @if(in_array(Auth::user()->user_type, ['academic_advisor', 'admin']) && !in_array($application->status, ['approved', 'rejected']))
-                <div class="card border-0 shadow-sm">
+                <div class="card border-0 shadow-sm mb-4 border-top border-4 border-info">
                     <div class="card-header bg-white py-3">
-                        <h6 class="card-title mb-0">Advisor Actions</h6>
+                        <h6 class="card-title mb-0 text-dark fw-bold">Decision Console</h6>
                     </div>
                     <div class="card-body">
+                        <div class="alert alert-info fs-12 mb-3">
+                            <i class="ri-information-line me-1"></i> Please review all documents before making a decision.
+                        </div>
                         <div class="d-grid gap-2">
                             <!-- Approve -->
                             <form action="{{ route('applications.updateStatus', $application->id) }}" method="POST">
@@ -214,11 +188,63 @@
                 </div>
             @endif
 
+            {{-- DYNAMIC BANNER --}}
+            @php
+                $statusColor = match($application->status) {
+                    'approved' => 'bg-success text-white',
+                    'rejected' => 'bg-danger text-white',
+                    default => 'bg-primary text-white'
+                };
+            @endphp
+
+                <!-- Status Card -->
+            <div class="card border-0 shadow-sm mb-4 {{ $statusColor }}">
+                <div class="card-body p-4">
+                    <h6 class="text-white-50 text-uppercase fs-11 fw-bold mb-2">Current Status</h6>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="ri-loader-4-line fs-3 me-2 {{ $application->status == 'under_review' ? 'spin' : '' }}"></i>
+                        <h2 class="mb-0 fw-bold">{{ ucwords(str_replace('_', ' ', $application->status)) }}</h2>
+                    </div>
+
+                    @if($application->status == 'submitted')
+                        @if(Auth::user()->user_type == 'student')
+                            <p class="mb-0 small text-white-50">Pending Review. Please wait for an advisor.</p>
+                        @else
+                            <p class="mb-0 small text-white-50 fw-bold">⚠️ Action Required: This application is pending your review.</p>
+                        @endif
+
+                    @elseif($application->status == 'approved')
+                        <p class="mb-0 small text-white-50">Application Approved. Moved to Visa Stage.</p>
+
+                    @elseif($application->status == 'rejected')
+                        <p class="mb-0 small text-white-50">Application Rejected. See feedback below.</p>
+
+                        {{-- STUDENT RESUBMIT BUTTON --}}
+                        @if(Auth::user()->user_type == 'student')
+                            <div class="mt-3 pt-3 border-top border-white-50">
+                                <a href="{{ route('applications.edit', $application->id) }}" class="btn btn-light btn-sm w-100 fw-bold text-danger shadow-sm">
+                                    <i class="ri-edit-2-line me-1"></i> Edit & Resubmit Application
+                                </a>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
+
+            <!-- Notes / Feedback (If Rejected) -->
+            @if($application->notes)
+                <div class="card border-0 shadow-sm mb-4 border-start border-4 border-danger">
+                    <div class="card-body">
+                        <h6 class="fw-bold text-danger mb-2">Advisor Feedback</h6>
+                        <p class="text-muted mb-0">{{ $application->notes }}</p>
+                    </div>
+                </div>
+            @endif
+
         </div>
     </div>
 
     <style>
-        /* Spin animation for loading icons */
         .spin { animation: spin 2s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>

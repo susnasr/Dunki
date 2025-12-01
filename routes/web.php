@@ -51,7 +51,7 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     Route::resource('applications', ApplicationController::class)->except(['index', 'show']);
 
     Route::resource('files', FileController::class)->only(['index', 'create', 'store', 'destroy']);
-    Route::get('/universities', [UniversityController::class, 'index'])->name('universities.index');
+    Route::get('/universities', [\App\Http\Controllers\UniversityController::class, 'index'])->name('universities.index');
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 
