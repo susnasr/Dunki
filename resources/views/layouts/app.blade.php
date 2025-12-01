@@ -38,6 +38,29 @@
 
     <nav class="app-sidebar-menu nav nav-pills flex-column fs-6" id="sidebarMenu" aria-label="Main navigation">
         <ul class="main-menu" id="all-menu-items" role="menu">
+            {{-- ================================================= --}}
+            {{-- 🎓 ACADEMIC ADVISOR MENU --}}
+            {{-- ================================================= --}}
+            @if(auth()->user()->user_type === 'academic_advisor')
+                <li class="menu-title">Work Space</li>
+
+                <li class="slide">
+                    {{-- We will update this route next --}}
+                    <a href="{{ route('academic.dashboard') }}" class="side-menu__item">
+                        <span class="side_menu_icon"><i class="ri-dashboard-line"></i></span>
+                        <span class="side-menu__label">Advisor Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="slide">
+                    {{-- A dedicated list of all applications to review --}}
+                    <a href="#!" class="side-menu__item">
+                        <span class="side_menu_icon"><i class="ri-file-list-3-line"></i></span>
+                        <span class="side-menu__label">Review Applications</span>
+                        <span class="badge bg-danger ms-auto">New</span>
+                    </a>
+                </li>
+            @endif
 
             {{-- ================================================= --}}
             {{-- 🎓 STUDENT MENU --}}

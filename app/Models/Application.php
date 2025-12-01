@@ -31,4 +31,9 @@ class Application extends Model
     {
         return $this->hasMany(File::class, 'application_id');
     }
+    public function clientProfile()
+    {
+        // This tells Laravel: "My 'client_id' column points to the ClientProfile model"
+        return $this->belongsTo(ClientProfile::class, 'client_id');
+    }
 }

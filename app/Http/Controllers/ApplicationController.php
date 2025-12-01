@@ -18,16 +18,13 @@ class ApplicationController extends Controller
     {
         $user = Auth::user();
 
-        // 1. Get the Student's Profile
         $clientProfile = ClientProfile::where('user_id', $user->id)->first();
 
-        // 2. Security Check: Must have a profile
         if (!$clientProfile) {
             return redirect()->route('profile.edit')
                 ->with('error', 'Please complete your profile to view applications.');
         }
 
-        // 3. Fetch ONLY this student's applications
         $applications = Application::where('client_id', $clientProfile->id)
             ->latest()
             ->paginate(10);
@@ -36,7 +33,7 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Handle the "Apply Now" click from the University Finder.
+     * Handle the "Apply Now" click.
      */
     public function store(Request $request)
     {
@@ -49,30 +46,22 @@ class ApplicationController extends Controller
                 ->with('error', 'Please complete your basic profile before applying.');
         }
 
-        // =========================================================
-        // 2. 🛡️ STRICT DOCUMENT CHECK (The Bouncer)
-        // =========================================================
-        // We fetch the list of files this user has uploaded
+        // 2. Strict Document Check
         $uploadedFiles = \App\Models\File::where('uploaded_by', $user->id)
-            ->where('status', '!=', 'rejected') // Don't count rejected files!
+            ->where('status', '!=', 'rejected')
             ->pluck('file_type')
             ->toArray();
 
-        // Define what is MANDATORY to apply
         $requiredDocuments = ['passport', 'transcript', 'photo'];
-
-        // Calculate missing files
         $missing = array_diff($requiredDocuments, $uploadedFiles);
 
         if (!empty($missing)) {
-            // Convert "passport" to "Passport" for nicer reading
             $missingNames = array_map('ucfirst', $missing);
             $list = implode(', ', $missingNames);
 
             return redirect()->route('files.index')
                 ->with('error', "⚠️ Application Blocked! You are missing: $list. Please upload them first.");
         }
-        // =========================================================
 
         $request->validate([
             'university_id' => 'required|exists:universities,id',
@@ -105,28 +94,38 @@ class ApplicationController extends Controller
         return redirect()->route('student.dashboard')
             ->with('success', 'Application submitted to ' . $university->name . ' successfully!');
     }
+
     /**
      * Display the specified application details.
+     * ✅ UPDATED: Allows Advisors & Admins to view too.
      */
     public function show(Application $application)
     {
-        // Security: Ensure the student owns this application
         $user = Auth::user();
-        $clientProfile = ClientProfile::where('user_id', $user->id)->first();
 
-        if ($application->client_id !== $clientProfile->id) {
-            abort(403, 'Unauthorized access to this application.');
+        // 1. If User is the STUDENT (Owner) -> Allow
+        if ($user->user_type === 'student') {
+            $clientProfile = ClientProfile::where('user_id', $user->id)->first();
+            if ($application->client_id !== $clientProfile->id) {
+                abort(403, 'Unauthorized access.');
+            }
         }
 
-        // Eager load relationships if you have them (e.g., tasks, files)
-        // $application->load('tasks', 'files');
+        // 2. If User is ADVISOR or ADMIN -> Allow
+        elseif (in_array($user->user_type, ['academic_advisor', 'admin'])) {
+            // Advisors can view all applications for review
+        }
+
+        // 3. Anyone else -> Block
+        else {
+            abort(403, 'Unauthorized access.');
+        }
 
         return view('student.applications.show', compact('application'));
     }
 
     public function create()
     {
-        // Usually not needed if they apply via "Find Universities"
         return view('student.applications.create');
     }
 }

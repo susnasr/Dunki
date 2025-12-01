@@ -41,8 +41,36 @@ class DashboardController extends Controller
             return redirect()->route('consultant.dashboard');
         }
 
+        // ✅ 5. ADD THIS: Academic Advisor Redirect
+        if ($user->user_type === 'academic_advisor') {
+            return redirect()->route('academic.dashboard');
+        }
+
         // 5. Fallback for undefined roles
         return abort(403, 'User role not recognized.');
+    }
+
+    // ==========================================
+    // 🎓 ACADEMIC ADVISOR DASHBOARD
+    // ==========================================
+    public function academic()
+    {
+        $user = Auth::user();
+
+        // 1. Stats
+        // Count applications that are "Submitted" (Waiting for review)
+        $pendingReview = Application::where('status', 'submitted')->count();
+        $myStudents = 12; // Placeholder for now
+
+        // 2. Recent Applications (The Queue)
+        // Fetch applications that need attention
+        $applications = Application::with('clientProfile.user')
+        ->where('status', 'submitted')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('partials.dashboard-academic', compact('pendingReview', 'myStudents', 'applications'));
     }
 
     // ==========================================
