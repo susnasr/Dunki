@@ -22,37 +22,34 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 Auth::routes(['register' => true]);
 
 // ==========================================
-// SHARED ROUTES ( Accessible by multiple roles )
+// SHARED ROUTES (Accessible by Student, Advisor, Admin)
 // ==========================================
 Route::middleware('auth')->group(function () {
-    // Profile
+    // 1. Profile Routes
     Route::get('/profile', [\App\Http\Controllers\StudentController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [\App\Http\Controllers\StudentController::class, 'update'])->name('profile.update');
 
-    // ✅ SHARED APPLICATION ROUTES
-    // 1. List (Index) - Student sees own, Advisor sees all
+    // 2. Application Shared Routes
     Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
-
-    // 2. Details (Show)
     Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
-
-    // 3. Status Update (POST)
     Route::post('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
+
+    // 3. ✅ CHAT ROUTES (Moved here so everyone can access)
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/fetch', [\App\Http\Controllers\ChatController::class, 'fetch'])->name('chat.fetch');
+    Route::post('/chat/send', [ChatController::class, 'store'])->name('chat.store');
 });
 
 // ==========================================
-// STUDENT ROUTES
+// STUDENT ROUTES (Only for Students)
 // ==========================================
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
 
-    // ✅ FIX: Exclude 'index' and 'show' because they are in the Shared group now
     Route::resource('applications', ApplicationController::class)->except(['index', 'show']);
-
     Route::resource('files', FileController::class)->only(['index', 'create', 'store', 'destroy']);
     Route::get('/universities', [\App\Http\Controllers\UniversityController::class, 'index'])->name('universities.index');
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 
 // ==========================================
@@ -79,7 +76,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
     Route::resource('students', StudentController::class);
 
-    // University Management
     Route::get('admin/universities/import', [UniversityController::class, 'import'])->name('admin.universities.import');
     Route::post('admin/universities/import', [UniversityController::class, 'importSearch'])->name('admin.universities.search');
     Route::post('admin/universities/store-api', [UniversityController::class, 'storeApi'])->name('admin.universities.storeApi');

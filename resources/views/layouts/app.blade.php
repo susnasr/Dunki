@@ -62,11 +62,6 @@
                     </a>
                 </li>
                 <li class="slide">
-                    {{--
-                        THIS LINK IS CORRECT: 'universities.index'
-                        If this opens an Admin table, the ISSUE is in the View file:
-                        resources/views/student/universities/index.blade.php
-                    --}}
                     <a href="{{ route('universities.index') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-bank-line"></i></span>
                         <span class="side-menu__label">Find Universities</span>
@@ -142,7 +137,14 @@
                     <a href="{{ route('applications.index') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-file-list-3-line"></i></span>
                         <span class="side-menu__label">Review Applications</span>
-                        <span class="badge bg-danger ms-auto">New</span>
+                    </a>
+                </li>
+
+                {{-- ✅ NEW: Advisor Chat Link --}}
+                <li class="slide">
+                    <a href="{{ route('chat.index') }}" class="side-menu__item">
+                        <span class="side_menu_icon"><i class="ri-chat-smile-2-line"></i></span>
+                        <span class="side-menu__label">Messages</span>
                     </a>
                 </li>
             @endif

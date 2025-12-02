@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'ranking' => 1,
             'tuition_fee' => 35000, // GBP approx converted
             'accepts_without_ielts' => false,
-            'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Oxford_University_Coat_Of_Arms.svg/1200px-Oxford_University_Coat_Of_Arms.svg.png'
+            'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Oxford_University_Coat_Of_Arms.svg/600px-Oxford.png'
         ]);
 
         \App\Models\University::create([
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'ranking' => 2,
             'tuition_fee' => 36000,
             'accepts_without_ielts' => false,
-            'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/University_of_Cambridge_Coat_of_Arms.svg/1200px-University_of_Cambridge_Coat_of_Arms.svg.png'
+            'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/University_of_Cambridge_Coat_of_Arms.svg/600px-Cambridge.png'
         ]);
 
         \App\Models\University::create([
