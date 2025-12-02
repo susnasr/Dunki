@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,45 +15,46 @@ class ChatController extends Controller
         $user = Auth::user();
         $chatPartner = null;
 
+        // =================================================================
+        // 🛡️ STRICT DEV MODE: FORCE CONNECT SPECIFIC USERS
+        // =================================================================
 
         if ($user->user_type == 'student') {
+            // 1. Try finding John Advisor explicitly
             $chatPartner = User::where('email', 'advisor@dunki.com')->first();
-        } elseif ($user->user_type == 'academic_advisor') {
+
+            if (!$chatPartner) {
+                // 2. Fallback: Find the LATEST created Advisor (Likely John)
+                // 'first()' gives the oldest (Muhammad), 'latest()->first()' gives the newest.
+                $chatPartner = User::where('user_type', 'academic_advisor')->latest()->first();
+            }
+
+            if (!$chatPartner) {
+                // 3. Last Resort: Find the Admin
+                $chatPartner = User::where('user_type', 'admin')->first();
+            }
+        }
+        elseif ($user->user_type == 'academic_advisor') {
+            // Advisor ALWAYS talks to King Student (unless a specific student is clicked)
             if ($request->has('student_id')) {
                 $chatPartner = User::find($request->student_id);
             } else {
+                // 1. Try finding King explicitly
                 $chatPartner = User::where('email', 'king11@gmail.com')->first();
-            }
-        }
 
-        // ==========================================
-        // 2. FALLBACK
-        // ==========================================
-        if (!$chatPartner) {
-            $lastMessage = Message::where(function($q) use ($user) {
-                $q->where('sender_id', $user->id)
-                    ->orWhere('receiver_id', $user->id);
-            })->latest()->first();
-
-            if ($lastMessage) {
-                $chatPartner = $lastMessage->sender_id == $user->id
-                    ? $lastMessage->receiver
-                    : $lastMessage->sender;
-            } else {
-                if ($user->user_type == 'student') {
-                    $chatPartner = User::where('user_type', 'academic_advisor')->first()
-                        ?? User::where('user_type', 'admin')->first();
-                } elseif ($user->user_type == 'academic_advisor') {
-                    $chatPartner = User::where('user_type', 'student')->first();
+                if (!$chatPartner) {
+                    // 2. Fallback: Find the LATEST created Student
+                    $chatPartner = User::where('user_type', 'student')->latest()->first();
                 }
             }
         }
 
+        // 4. Safety Check: If the system is empty or users don't exist
         if (!$chatPartner) {
-            return back()->with('error', 'No users found to chat with.');
+            return back()->with('error', 'Chat partner not found. Please check database emails.');
         }
 
-        // 3. Fetch Messages
+        // 5. Fetch Messages (History)
         $messages = Message::where(function($q) use ($user, $chatPartner) {
             $q->where('sender_id', $user->id)->where('receiver_id', $chatPartner->id);
         })
@@ -62,13 +64,13 @@ class ChatController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // ✅ FIXED: We renamed 'advisor' to 'chatPartner' to match your View!
         return view('students.chat.index', [
             'messages' => $messages,
             'chatPartner' => $chatPartner
         ]);
     }
 
+    // ✅ REAL-TIME: Fetch new messages via AJAX (JS calls this every 3s)
     public function fetch(Request $request)
     {
         $user = Auth::user();
@@ -89,6 +91,7 @@ class ChatController extends Controller
         ]);
     }
 
+    // ✅ REAL-TIME: Send message via AJAX
     public function store(Request $request)
     {
         $request->validate([
@@ -101,6 +104,9 @@ class ChatController extends Controller
             'receiver_id' => $request->receiver_id,
             'message' => $request->message,
         ]);
+
+        // ✅ FIRE THE EVENT: This sends the message to the WebSocket server
+        MessageSent::dispatch($msg);
 
         if ($request->wantsJson()) {
             return response()->json($msg);
