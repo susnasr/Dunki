@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\UniversityController;
+use App\Http\Controllers\VisaController; // ✅ Added Import
 
 // ==========================================
 // Default Home (Dashboard redirects by role)
@@ -22,27 +23,27 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 Auth::routes(['register' => true]);
 
 // ==========================================
-// SHARED ROUTES (Accessible by Student, Advisor, Admin)
+// SHARED ROUTES (Accessible by multiple roles)
 // ==========================================
 Route::middleware('auth')->group(function () {
-    // 1. Profile Routes
+    // Profile
     Route::get('/profile', [\App\Http\Controllers\StudentController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [\App\Http\Controllers\StudentController::class, 'update'])->name('profile.update');
 
-    // 2. Application Shared Routes
+    // Shared Application Routes
     Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
     Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
     Route::post('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
 
-    // 3. ✅ CHAT ROUTES (Moved here so everyone can access)
+    // Chat Routes
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/fetch', [\App\Http\Controllers\ChatController::class, 'fetch'])->name('chat.fetch');
+    Route::get('/chat/fetch', [ChatController::class, 'fetch'])->name('chat.fetch');
     Route::post('/chat/send', [ChatController::class, 'store'])->name('chat.store');
 });
 
 // ==========================================
-// STUDENT ROUTES (Only for Students)
+// STUDENT ROUTES
 // ==========================================
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
@@ -62,11 +63,15 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
 });
 
 // ==========================================
-// CONSULTANT ROUTES
+// VISA CONSULTANT ROUTES (The One You Want!)
 // ==========================================
-Route::middleware(['auth', 'role:consultant'])->group(function () {
-    Route::get('/consultant/dashboard', [DashboardController::class, 'consultant'])->name('consultant.dashboard');
-    Route::get('/consultant/tasks', [TaskController::class, 'index'])->name('consultant.tasks.index');
+Route::middleware(['auth', 'role:visa_consultant'])->group(function () {
+
+    // ✅ This matches the redirect in DashboardController
+    Route::get('/visa/dashboard', [VisaController::class, 'index'])->name('consultant.dashboard');
+
+    Route::post('/visa/start/{application}', [VisaController::class, 'startProcess'])->name('visa.start');
+    Route::get('/visa/tasks', [TaskController::class, 'index'])->name('consultant.tasks.index');
 });
 
 // ==========================================

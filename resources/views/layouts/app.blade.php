@@ -37,7 +37,7 @@
 <aside class="app-sidebar">
     <!-- BRAND LOGO -->
     <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-        <a href="{{ url('/') }}">
+        <a href="{{ route('home') }}">
             <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset('assets/images/light-logo.png') }}">
             <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset('assets/images/Favicon.png') }}">
         </a>
@@ -108,7 +108,7 @@
                 </li>
 
                 <li class="slide">
-                    <a href="#!" class="side-menu__item">
+                    <a href="{{ route('students.index') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-group-line"></i></span>
                         <span class="side-menu__label">Users & Staff</span>
                     </a>
@@ -140,11 +140,29 @@
                     </a>
                 </li>
 
-                {{-- ✅ NEW: Advisor Chat Link --}}
                 <li class="slide">
                     <a href="{{ route('chat.index') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-chat-smile-2-line"></i></span>
                         <span class="side-menu__label">Messages</span>
+                    </a>
+                </li>
+            @endif
+
+            {{-- ✈️ VISA CONSULTANT MENU (New!) --}}
+            @if(auth()->user()->user_type === 'visa_consultant')
+                <li class="menu-title">Visa Center</li>
+
+                <li class="slide">
+                    <a href="{{ route('consultant.dashboard') }}" class="side-menu__item">
+                        <span class="side_menu_icon"><i class="ri-passport-line"></i></span>
+                        <span class="side-menu__label">Visa Processing</span>
+                    </a>
+                </li>
+
+                <li class="slide">
+                    <a href="#!" class="side-menu__item">
+                        <span class="side_menu_icon"><i class="ri-task-line"></i></span>
+                        <span class="side-menu__label">My Tasks</span>
                     </a>
                 </li>
             @endif
@@ -217,7 +235,6 @@
 
 <!-- App JS -->
 <script type="module" src="{{ asset('assets/js/app.js') }}"></script>
-
 
 @stack('scripts')
 </body>
