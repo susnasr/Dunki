@@ -4,7 +4,7 @@
 
     <div class="row mb-4 align-items-end">
         <div class="col-md-12">
-            <h4 class="fw-bold text-dark">Advisor Workspace</h4>
+            <h4 class="fw-bold text-body">Advisor Workspace</h4>
             <p class="text-muted mb-0">Review student applications and guide them to their dream university.</p>
         </div>
     </div>
@@ -59,8 +59,8 @@
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">All Applications</h5>
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0 text-body">All Applications</h5>
             <button class="btn btn-sm btn-light"><i class="ri-filter-3-line"></i> Filter</button>
         </div>
         <div class="card-body p-0">

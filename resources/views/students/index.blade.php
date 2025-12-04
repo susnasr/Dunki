@@ -5,7 +5,7 @@
     <!-- PAGE HEADER -->
     <div class="hstack flex-wrap gap-3 mb-5">
         <div class="flex-grow-1">
-            <h4 class="mb-1 fw-bold text-dark">Student Management 👨‍🎓</h4>
+            <h4 class="mb-1 fw-bold text-dark">Student Management</h4>
             <nav>
                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>

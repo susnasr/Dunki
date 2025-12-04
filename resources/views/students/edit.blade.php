@@ -5,7 +5,7 @@
     <!-- PAGE HEADER -->
     <div class="hstack flex-wrap gap-3 mb-5">
         <div class="flex-grow-1">
-            <h4 class="mb-1 fw-bold text-dark">Edit Profile ✏️</h4>
+            <h4 class="mb-1 fw-bold text-body">Edit Profile</h4>
             <nav>
                 <ol class="breadcrumb breadcrumb-arrow mb-0">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -20,7 +20,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white py-3 border-bottom">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Update Information</h5>
                 </div>
                 <div class="card-body p-4">

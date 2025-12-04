@@ -94,11 +94,11 @@
             </div>
 
             <!-- Documents Review -->
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow-sm mb-4 border-top border-4 border-primary">
                 <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                    <h6 class="card-title mb-0">Attached Documents</h6>
+                    <h6 class="card-title mb-0 fw-bold text-primary"><i class="ri-user-search-line me-1"></i>Attached Documents</h6>
                     @if(Auth::user()->user_type != 'student')
-                        <span class="badge bg-light text-dark border">Verify these files</span>
+                        <span class="badge bg-light text-body border">Verify these files</span>
                     @endif
                 </div>
                 <div class="card-body p-0">
