@@ -155,7 +155,7 @@
                 <li class="slide">
                     <a href="{{ route('consultant.dashboard') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-passport-line"></i></span>
-                        <span class="side-menu__label">Visa Processing</span>
+                        <span class="side-menu__label theme-text">Visa Processing</span>
                     </a>
                 </li>
 

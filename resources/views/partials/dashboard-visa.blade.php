@@ -22,7 +22,7 @@
                     <thead class="bg-light">
                     <tr>
                         <th class="ps-4">App ID</th>
-                        <th>Student</th>
+                        <th >Student</th>
                         <th>University & Country</th>
                         <th>Admitted Date</th>
                         <th class="text-end pe-4">Action</th>
@@ -35,19 +35,19 @@
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="avatar-xs bg-primary-subtle rounded-circle me-2 d-flex align-items-center justify-content-center">
-                                        <span class="fw-bold text-primary">{{ substr($app->clientProfile->user->name, 0, 1) }}</span>
+                                        <span class="fw-bold text-primary text">{{ substr($app->clientProfile->user->name, 0, 1) }}</span>
                                     </div>
                                     <div>
-                                        <h6 class="mb-0 fs-13 text-dark">{{ $app->clientProfile->user->name }}</h6>
+                                        <h6 class="mb-0 fs-13 text-body">{{ $app->clientProfile->user->name }}</h6>
                                         <small class="text-muted">{{ $app->clientProfile->user->email }}</small>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex flex-column">
-                                    <span class="fw-semibold text-dark">{{ $app->university_name }}</span>
-                                    <span class="badge bg-light text-dark border w-max mt-1">
-                                        <i class="ri-flag-line me-1"></i> {{ $app->destination_country }}
+                                    <span class="fw-semibold text-body">{{ $app->university_name }}</span>
+                                    <span class="badge bg-danger text-white w-max mt-1">
+                                    <i class="ri-flag-line me-1"></i> {{ $app->destination_country }}
                                     </span>
                                 </div>
                             </td>
@@ -79,14 +79,78 @@
         </div>
     </div>
 
-    <!-- 2. ONGOING PROCESSING (Placeholder for next step) -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3">
-            <h6 class="card-title mb-0 text-dark">Processing Queue</h6>
+    <!-- 2. ONGOING PROCESSING QUEUE -->
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-header text-white py-3"
+             style="background: linear-gradient(90deg, #4f46e5, #06b6d4);">
+            <h6 class="card-title mb-0">Processing Queue</h6>
         </div>
-        <div class="card-body text-center py-5">
-            <p class="text-muted">Active visa applications will appear here once started.</p>
+            <span class="badge bg-light text-body border">{{ $ongoingCases->count() }} Active Files</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle table-hover mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Student</th>
+                        <th>Target Country</th>
+                        <th>Current Stage</th>
+                        <th>Last Updated</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @forelse($ongoingCases as $case)
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-xs bg-primary-subtle rounded-circle me-2 d-flex align-items-center justify-content-center">
+                                        <span class="fw-bold text-primary">{{ substr($case->clientProfile->user->name, 0, 1) }}</span>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fs-13 text-body">{{ $case->clientProfile->user->name }}</h6>
+                                        <small class="text-muted">#{{ $case->application_number }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                    <span class="badge bg-danger text-white w-max mt-1">
+                                    <i class="ri-flag-line me-1"></i> {{ $case->destination_country }}
+                                </span>
+                            </td>
+                            <td>
+                                @if($case->status == 'visa_processing')
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                                        Filing in Progress
+                                    </span>
+                                @elseif($case->status == 'visa_submitted')
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle">
+                                        Submitted to Embassy
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="text-muted small">{{ $case->updated_at->diffForHumans() }}</td>
+                            <td class="text-end pe-4">
+                                {{-- We will reuse the details page but add Visa Actions --}}
+                                <a href="{{ route('applications.show', $case->id) }}" class="btn btn-sm btn-primary shadow-sm">
+                                    Manage File <i class="ri-arrow-right-line ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <div class="avatar-lg bg-light rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center">
+                                    <i class="ri-folder-open-line fs-1 text-muted"></i>
+                                </div>
+                                <h5 class="text-muted">Queue is empty.</h5>
+                                <p class="text-muted small">Start a new file from the table above.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
 @endsection

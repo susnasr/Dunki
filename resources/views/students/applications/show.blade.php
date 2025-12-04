@@ -7,7 +7,10 @@
         <div>
             @if(Auth::user()->user_type == 'academic_advisor')
                 <h4 class="fw-bold mb-1">Review Application <span class="badge bg-warning-subtle text-warning fs-12 align-middle border border-warning-subtle ms-2">Advisor Mode</span></h4>
-                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
+                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-body">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
+            @elseif(Auth::user()->user_type == 'visa_consultant')
+                <h4 class="fw-bold mb-1">Visa Filing <span class="badge bg-info-subtle text-info fs-12 align-middle border border-info-subtle ms-2">Consultant Mode</span></h4>
+                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-body">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
             @else
                 <h4 class="fw-bold mb-1">Application Details</h4>
                 <p class="text-muted mb-0">ID: <span class="fw-medium text-dark">#{{ $application->application_number }}</span></p>
@@ -18,6 +21,10 @@
             @if(Auth::user()->user_type == 'academic_advisor')
                 <a href="{{ route('academic.dashboard') }}" class="btn btn-white border shadow-sm">
                     <i class="ri-arrow-left-line me-1"></i> Back to Queue
+                </a>
+            @elseif(Auth::user()->user_type == 'visa_consultant')
+                <a href="{{ route('consultant.dashboard') }}" class="btn btn-white border shadow-sm">
+                    <i class="ri-arrow-left-line me-1"></i> Back to Visa Center
                 </a>
             @else
                 <a href="{{ route('applications.index') }}" class="btn btn-white border shadow-sm">
@@ -32,8 +39,7 @@
         <div class="col-lg-8">
 
             {{--
-                🛑 ADVISOR VIEW: Shows Applicant Info FIRST
-                Advisors need to verify the person before the university.
+                🛑 STAFF VIEW: Shows Applicant Info FIRST
             --}}
             @if(Auth::user()->user_type != 'student')
                 <div class="card border-0 shadow-sm mb-4 border-top border-4 border-primary">
@@ -44,7 +50,7 @@
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <small class="text-muted text-uppercase fw-bold fs-11">Full Name</small>
-                                <p class="fw-bold mb-0 text-dark fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
+                                <p class="fw-bold mb-0 text-body fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
                             </div>
                             <div class="col-md-6">
                                 <small class="text-muted text-uppercase fw-bold fs-11">Email Address</small>
@@ -63,7 +69,7 @@
                 </div>
             @endif
 
-            <!-- University Info (Context) -->
+            <!-- University Info -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-start">
@@ -77,15 +83,15 @@
                             <div class="hstack gap-3 mt-3">
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Course</small>
-                                    <span class="fw-medium text-dark">{{ $application->course_name ?? 'General Admission' }}</span>
+                                    <span class="fw-medium text-body">{{ $application->course_name ?? 'General Admission' }}</span>
                                 </div>
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Intake</small>
-                                    <span class="fw-medium text-dark">{{ $application->intake ?? 'Fall 2025' }}</span>
+                                    <span class="fw-medium text-body">{{ $application->intake ?? 'Fall 2025' }}</span>
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">Type</small>
-                                    <span class="fw-medium text-dark">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
+                                    <span class="fw-medium text-body">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +101,15 @@
 
             <!-- Documents Review -->
             <div class="card border-0 shadow-sm mb-4 border-top border-4 border-primary">
-                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                    <h6 class="card-title mb-0 fw-bold text-primary"><i class="ri-user-search-line me-1"></i>Attached Documents</h6>
+                <div class="card-header bg-body py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0 bg-white card-header py-3 border-bottom fw-bold text-primary">
+                        <i class="ri-file-list-3-line me-1"></i> Attached Documents
+                    </h6>
+
                     @if(Auth::user()->user_type != 'student')
-                        <span class="badge bg-light text-body border">Verify these files</span>
+                        <span class="badge bg-body-secondary text-body fw-semibold border">
+            Verify these files
+        </span>
                     @endif
                 </div>
                 <div class="card-body p-0">
@@ -147,11 +158,10 @@
         <!-- RIGHT COLUMN -->
         <div class="col-lg-4">
 
-            {{--
-                ✅ ADVISOR ACTION ZONE (Only for Staff)
-                This appears AT THE TOP for Advisors so they can take action immediately.
-            --}}
-            @if(in_array(Auth::user()->user_type, ['academic_advisor', 'admin']) && !in_array($application->status, ['approved', 'rejected']))
+            {{-- ================================================= --}}
+            {{-- 🎓 ADVISOR ACTIONS (Review Stage) --}}
+            {{-- ================================================= --}}
+            @if(Auth::user()->user_type == 'academic_advisor' && $application->status == 'submitted')
                 <div class="card border-0 shadow-sm mb-4 border-top border-4 border-info">
                     <div class="card-header bg-white py-3">
                         <h6 class="card-title mb-0 text-dark fw-bold">Decision Console</h6>
@@ -161,20 +171,12 @@
                             <i class="ri-information-line me-1"></i> Please review all documents before making a decision.
                         </div>
                         <div class="d-grid gap-2">
-                            <!-- Approve -->
                             <form action="{{ route('applications.updateStatus', $application->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="status" value="approved">
-                                <button class="btn btn-success w-100">
-                                    <i class="ri-check-double-line me-1"></i> Approve & Process
-                                </button>
+                                <button class="btn btn-success w-100"><i class="ri-check-double-line me-1"></i> Approve & Process</button>
                             </form>
-
-                            <!-- Reject -->
-                            <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#rejectReason">
-                                <i class="ri-close-line me-1"></i> Reject / Request Info
-                            </button>
-
+                            <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#rejectReason"><i class="ri-close-line me-1"></i> Reject</button>
                             <div class="collapse mt-2" id="rejectReason">
                                 <form action="{{ route('applications.updateStatus', $application->id) }}" method="POST">
                                     @csrf
@@ -188,42 +190,114 @@
                 </div>
             @endif
 
-            {{-- DYNAMIC BANNER --}}
+            {{-- ================================================= --}}
+            {{-- ✈️ VISA CONSULTANT ACTIONS (Filing Stage) --}}
+            {{-- ================================================= --}}
+            @if(Auth::user()->user_type == 'visa_consultant')
+                @if(!in_array($application->status, ['visa_granted', 'visa_rejected']))
+                    <div class="card border-0 shadow-sm mb-4 border-top border-4 border-dark">
+                        <div class="card-header bg-white py-3">
+                            <h6 class="card-title mb-0 text-dark fw-bold">Visa Filing Console</h6>
+                        </div>
+                        <div class="card-body">
+
+                            @if($application->status == 'visa_processing')
+                                <div class="text-center mb-3">
+                                    <div class="avatar-sm bg-light rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center">
+                                        <i class="ri-file-paper-2-line fs-5 text-dark"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-1">Prepare Filing</h6>
+                                    <p class="small text-muted">Collect docs and submit to embassy.</p>
+                                </div>
+                                <form action="{{ route('applications.updateStatus', $application->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="status" value="visa_submitted">
+                                    <button class="btn btn-dark w-100">
+                                        <i class="ri-mail-send-line me-1"></i> Mark as Submitted to Embassy
+                                    </button>
+                                </form>
+
+                            @elseif($application->status == 'visa_submitted')
+                                <div class="text-center mb-3">
+                                    <div class="avatar-sm bg-info-subtle rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center">
+                                        <i class="ri-time-line fs-5 text-info"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-1 text-info">Under Embassy Review</h6>
+                                    <p class="small text-muted">Waiting for final decision.</p>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <form action="{{ route('applications.updateStatus', $application->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="status" value="visa_granted">
+                                        <button class="btn btn-success w-100">
+                                            <i class="ri-passport-line me-1"></i> Visa Granted
+                                        </button>
+                                    </form>
+
+                                    <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#visaReject">
+                                        <i class="ri-close-circle-line me-1"></i> Visa Rejected
+                                    </button>
+
+                                    <div class="collapse" id="visaReject">
+                                        <form action="{{ route('applications.updateStatus', $application->id) }}" method="POST" class="mt-2">
+                                            @csrf
+                                            <input type="hidden" name="status" value="visa_rejected">
+                                            <textarea name="reason" class="form-control mb-2" rows="2" placeholder="Reason from Embassy..." required></textarea>
+                                            <button class="btn btn-danger btn-sm w-100">Confirm Rejection</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                @endif
+            @endif
+
+            {{-- DYNAMIC STATUS BANNER --}}
             @php
                 $statusColor = match($application->status) {
-                    'approved' => 'bg-success text-white',
-                    'rejected' => 'bg-danger text-white',
+                    'approved', 'visa_granted' => 'bg-success text-white',
+                    'rejected', 'visa_rejected' => 'bg-danger text-white',
+                    'visa_submitted' => 'bg-info text-white',
+                    'visa_processing' => 'bg-dark text-white',
                     default => 'bg-primary text-white'
+                };
+
+                $iconClass = match($application->status) {
+                    'approved', 'visa_granted' => 'ri-check-double-line',
+                    'rejected', 'visa_rejected' => 'ri-close-circle-line',
+                    'visa_submitted' => 'ri-send-plane-fill',
+                    'visa_processing' => 'ri-file-settings-line',
+                    default => 'ri-loader-4-line spin'
                 };
             @endphp
 
-                <!-- Status Card -->
             <div class="card border-0 shadow-sm mb-4 {{ $statusColor }}">
                 <div class="card-body p-4">
                     <h6 class="text-white-50 text-uppercase fs-11 fw-bold mb-2">Current Status</h6>
                     <div class="d-flex align-items-center mb-3">
-                        <i class="ri-loader-4-line fs-3 me-2 {{ $application->status == 'under_review' ? 'spin' : '' }}"></i>
+                        <i class="{{ $iconClass }} fs-3 me-2"></i>
                         <h2 class="mb-0 fw-bold">{{ ucwords(str_replace('_', ' ', $application->status)) }}</h2>
                     </div>
 
                     @if($application->status == 'submitted')
-                        @if(Auth::user()->user_type == 'student')
-                            <p class="mb-0 small text-white-50">Pending Review. Please wait for an advisor.</p>
-                        @else
-                            <p class="mb-0 small text-white-50 fw-bold">⚠️ Action Required: This application is pending your review.</p>
-                        @endif
-
+                        <p class="mb-0 small text-white-50">Pending Review. Waiting for advisor.</p>
                     @elseif($application->status == 'approved')
-                        <p class="mb-0 small text-white-50">Application Approved. Moved to Visa Stage.</p>
+                        <p class="mb-0 small text-white-50">Approved! Moved to Visa Processing.</p>
+                    @elseif($application->status == 'visa_processing')
+                        <p class="mb-0 small text-white-50">Visa Consultant is preparing your file.</p>
+                    @elseif($application->status == 'visa_submitted')
+                        <p class="mb-0 small text-white-50">Application submitted to the Embassy.</p>
+                    @elseif($application->status == 'visa_granted')
+                        <p class="mb-0 small text-white-50">Congratulations! Visa Approved.</p>
+                    @elseif($application->status == 'rejected' || $application->status == 'visa_rejected')
+                        <p class="mb-0 small text-white-50">Please check the notes below.</p>
 
-                    @elseif($application->status == 'rejected')
-                        <p class="mb-0 small text-white-50">Application Rejected. See feedback below.</p>
-
-                        {{-- STUDENT RESUBMIT BUTTON --}}
-                        @if(Auth::user()->user_type == 'student')
+                        @if(Auth::user()->user_type == 'student' && $application->status == 'rejected')
                             <div class="mt-3 pt-3 border-top border-white-50">
                                 <a href="{{ route('applications.edit', $application->id) }}" class="btn btn-light btn-sm w-100 fw-bold text-danger shadow-sm">
-                                    <i class="ri-edit-2-line me-1"></i> Edit & Resubmit Application
+                                    <i class="ri-edit-2-line me-1"></i> Edit & Resubmit
                                 </a>
                             </div>
                         @endif
@@ -231,11 +305,11 @@
                 </div>
             </div>
 
-            <!-- Notes / Feedback (If Rejected) -->
+            <!-- Feedback (If Rejected or Notes exist) -->
             @if($application->notes)
                 <div class="card border-0 shadow-sm mb-4 border-start border-4 border-danger">
                     <div class="card-body">
-                        <h6 class="fw-bold text-danger mb-2">Advisor Feedback</h6>
+                        <h6 class="fw-bold text-danger mb-2">Feedback / Notes</h6>
                         <p class="text-muted mb-0">{{ $application->notes }}</p>
                     </div>
                 </div>

@@ -11,6 +11,9 @@ use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
 {
+    /**
+     * Display a listing of the student's applications.
+     */
     public function index()
     {
         $user = Auth::user();
@@ -30,7 +33,8 @@ class ApplicationController extends Controller
         }
 
         // 2. ADVISOR/ADMIN LOGIC
-        elseif (in_array($user->user_type, ['academic_advisor', 'admin'])) {
+        elseif (in_array($user->user_type, ['academic_advisor', 'admin', 'visa_consultant'])) {
+            // Visa consultants might need a different filter, but viewing all is safe for now
             $applications = Application::with('clientProfile.user')
                 ->latest()
                 ->paginate(15);
@@ -40,10 +44,12 @@ class ApplicationController extends Controller
             abort(403, 'Access denied.');
         }
 
-        // ✅ FIX: Changed 'student.' to 'students.' (Plural)
         return view('students.applications.index', compact('applications'));
     }
 
+    /**
+     * Handle the "Apply Now" click.
+     */
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -96,35 +102,52 @@ class ApplicationController extends Controller
             ->with('success', 'Application submitted successfully!');
     }
 
+    /**
+     * Display the specified application details.
+     */
     public function show(Application $application)
     {
         $user = Auth::user();
 
-        // Security Checks
+        // 1. STUDENT: Can only see their own
         if ($user->user_type === 'student') {
             if ($application->clientProfile->user_id !== $user->id) abort(403);
-        } elseif ($user->user_type === 'academic_advisor') {
-            // Redirect if work is already done
+        }
+
+        // 2. ADVISOR: Inbox Zero Logic (Redirect if already handled)
+        elseif ($user->user_type === 'academic_advisor') {
             if (in_array($application->status, ['approved', 'rejected'])) {
                 return redirect()->route('academic.dashboard')
                     ->with('info', "Application #{$application->application_number} is already processed.");
             }
-        } elseif (!in_array($user->user_type, ['admin'])) {
-            abort(403);
         }
 
-        // ✅ FIX: Changed 'student.' to 'students.' (Plural)
+        // 3. VISA CONSULTANT: Can access Approved/Processing cases
+        elseif ($user->user_type === 'visa_consultant') {
+            // Prevent them from seeing applications that haven't been approved by Advisor yet
+            if (in_array($application->status, ['draft', 'submitted', 'under_review', 'rejected'])) {
+                return back()->with('error', 'This application is not ready for visa processing yet.');
+            }
+        }
+
+        // 4. ADMIN: Can see everything
+        elseif ($user->user_type !== 'admin') {
+            abort(403); // Block everyone else
+        }
+
         return view('students.applications.show', compact('application'));
     }
 
     public function updateStatus(Request $request, Application $application)
     {
-        if (!in_array(Auth::user()->user_type, ['academic_advisor', 'admin'])) {
-            abort(403);
+        // Allow Visa Consultants to update status too (if you add buttons for them later)
+        if (!in_array(Auth::user()->user_type, ['academic_advisor', 'admin', 'visa_consultant'])) {
+            abort(403, 'Unauthorized action.');
         }
 
         $request->validate([
-            'status' => 'required|in:approved,rejected',
+            // Expand validation to include visa statuses if needed
+            'status' => 'required|in:approved,rejected,visa_submitted,visa_granted,visa_rejected',
             'reason' => 'nullable|string|max:500',
         ]);
 
@@ -133,13 +156,18 @@ class ApplicationController extends Controller
             'notes'  => $request->reason,
         ]);
 
-        return redirect()->route('academic.dashboard')
-            ->with('success', 'Application processed successfully!');
+        // Redirect logic based on role
+        if (Auth::user()->user_type === 'academic_advisor') {
+            return redirect()->route('academic.dashboard')->with('success', 'Application processed successfully!');
+        } elseif (Auth::user()->user_type === 'visa_consultant') {
+            return redirect()->route('consultant.dashboard')->with('success', 'Visa status updated!');
+        }
+
+        return back()->with('success', 'Status updated.');
     }
 
     public function create()
     {
-        // ✅ FIX: Changed 'student.' to 'students.' (Plural)
         return view('students.applications.create');
     }
 
@@ -148,7 +176,6 @@ class ApplicationController extends Controller
         if ($application->clientProfile->user_id !== auth()->id()) abort(403);
         if ($application->status !== 'rejected') return back();
 
-        // ✅ FIX: Changed 'student.' to 'students.' (Plural)
         return view('students.applications.edit', compact('application'));
     }
 
