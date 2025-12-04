@@ -4,7 +4,7 @@
 
     <div class="row mb-4 align-items-end">
         <div class="col-md-8">
-            <h4 class="fw-bold text-dark">Visa Processing Center ✈️</h4>
+            <h4 class="fw-bold text-body">Visa Processing Center</h4>
             <p class="text-muted mb-0">Manage visa filings and embassy appointments.</p>
         </div>
     </div>
