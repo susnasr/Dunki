@@ -7,10 +7,10 @@
         <div>
             @if(Auth::user()->user_type == 'academic_advisor')
                 <h4 class="fw-bold mb-1">Review Application <span class="badge bg-warning-subtle text-warning fs-12 align-middle border border-warning-subtle ms-2">Advisor Mode</span></h4>
-                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-body">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
+                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
             @elseif(Auth::user()->user_type == 'visa_consultant')
                 <h4 class="fw-bold mb-1">Visa Filing <span class="badge bg-info-subtle text-info fs-12 align-middle border border-info-subtle ms-2">Consultant Mode</span></h4>
-                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-body">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
+                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
             @else
                 <h4 class="fw-bold mb-1">Application Details</h4>
                 <p class="text-muted mb-0">ID: <span class="fw-medium text-dark">#{{ $application->application_number }}</span></p>
@@ -50,7 +50,7 @@
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <small class="text-muted text-uppercase fw-bold fs-11">Full Name</small>
-                                <p class="fw-bold mb-0 text-body fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
+                                <p class="fw-bold mb-0 text-dark fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
                             </div>
                             <div class="col-md-6">
                                 <small class="text-muted text-uppercase fw-bold fs-11">Email Address</small>
@@ -83,15 +83,15 @@
                             <div class="hstack gap-3 mt-3">
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Course</small>
-                                    <span class="fw-medium text-body">{{ $application->course_name ?? 'General Admission' }}</span>
+                                    <span class="fw-medium text-dark">{{ $application->course_name ?? 'General Admission' }}</span>
                                 </div>
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Intake</small>
-                                    <span class="fw-medium text-body">{{ $application->intake ?? 'Fall 2025' }}</span>
+                                    <span class="fw-medium text-dark">{{ $application->intake ?? 'Fall 2025' }}</span>
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">Type</small>
-                                    <span class="fw-medium text-body">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
+                                    <span class="fw-medium text-dark">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -101,15 +101,12 @@
 
             <!-- Documents Review -->
             <div class="card border-0 shadow-sm mb-4 border-top border-4 border-primary">
-                <div class="card-header bg-body py-3 border-bottom d-flex justify-content-between align-items-center">
-                    <h6 class="card-title mb-0 bg-white card-header py-3 border-bottom fw-bold text-primary">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h6 class="card-title mb-0 fw-bold text-primary">
                         <i class="ri-file-list-3-line me-1"></i> Attached Documents
                     </h6>
-
                     @if(Auth::user()->user_type != 'student')
-                        <span class="badge bg-body-secondary text-body fw-semibold border">
-            Verify these files
-        </span>
+                        <span class="badge bg-light text-dark border">Verify these files</span>
                     @endif
                 </div>
                 <div class="card-body p-0">
@@ -158,9 +155,7 @@
         <!-- RIGHT COLUMN -->
         <div class="col-lg-4">
 
-            {{-- ================================================= --}}
-            {{-- 🎓 ADVISOR ACTIONS (Review Stage) --}}
-            {{-- ================================================= --}}
+            {{-- 🎓 ADVISOR ACTIONS --}}
             @if(Auth::user()->user_type == 'academic_advisor' && $application->status == 'submitted')
                 <div class="card border-0 shadow-sm mb-4 border-top border-4 border-info">
                     <div class="card-header bg-white py-3">
@@ -190,9 +185,7 @@
                 </div>
             @endif
 
-            {{-- ================================================= --}}
-            {{-- ✈️ VISA CONSULTANT ACTIONS (Filing Stage) --}}
-            {{-- ================================================= --}}
+            {{-- ✈️ VISA CONSULTANT ACTIONS --}}
             @if(Auth::user()->user_type == 'visa_consultant')
                 @if(!in_array($application->status, ['visa_granted', 'visa_rejected']))
                     <div class="card border-0 shadow-sm mb-4 border-top border-4 border-dark">
@@ -278,7 +271,7 @@
                     <h6 class="text-white-50 text-uppercase fs-11 fw-bold mb-2">Current Status</h6>
                     <div class="d-flex align-items-center mb-3">
                         <i class="{{ $iconClass }} fs-3 me-2"></i>
-                        <h2 class="mb-0 fw-bold">{{ ucwords(str_replace('_', ' ', $application->status)) }}</h2>
+                        <h2 class="text-white mb-0 fw-bold">{{ ucwords(str_replace('_', ' ', $application->status)) }}</h2>
                     </div>
 
                     @if($application->status == 'submitted')
@@ -291,13 +284,15 @@
                         <p class="mb-0 small text-white-50">Application submitted to the Embassy.</p>
                     @elseif($application->status == 'visa_granted')
                         <p class="mb-0 small text-white-50">Congratulations! Visa Approved.</p>
-                    @elseif($application->status == 'rejected' || $application->status == 'visa_rejected')
-                        <p class="mb-0 small text-white-50">Please check the notes below.</p>
 
-                        @if(Auth::user()->user_type == 'student' && $application->status == 'rejected')
+                        {{-- ✅ UPDATED REJECTION LOGIC (Includes 'visa_rejected') --}}
+                    @elseif(in_array($application->status, ['rejected', 'visa_rejected']))
+                        <p class="mb-0 small text-white-50">Application Returned. Please check the notes below.</p>
+
+                        @if(Auth::user()->user_type == 'student')
                             <div class="mt-3 pt-3 border-top border-white-50">
-                                <a href="{{ route('applications.edit', $application->id) }}" class="btn btn-light btn-sm w-100 fw-bold text-danger shadow-sm">
-                                    <i class="ri-edit-2-line me-1"></i> Edit & Resubmit
+                                <a href="{{ route('applications.edit', $application->id) }}" class="btn btn-light btn-sm w-100 fw-bold text-danger text-body shadow-sm">
+                                    <i class="ri-edit-2-line me-1"></i> Edit & Resubmit Application
                                 </a>
                             </div>
                         @endif
