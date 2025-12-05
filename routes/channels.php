@@ -11,3 +11,8 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
     // A user can only listen to the channel named after their OWN ID.
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('online', function ($user) {
+    // Return the data you want others to see (ID and Name)
+    return ['id' => $user->id, 'name' => $user->name];
+});

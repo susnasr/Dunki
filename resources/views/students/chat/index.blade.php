@@ -11,10 +11,12 @@
                 </div>
                 <div>
                     <h6 class="mb-0 fw-bold">{{ $chatPartner->name }}</h6>
-                    {{-- Status Indicator --}}
-                    <small class="text-success" id="connection-status">
-                        <i class="ri-checkbox-blank-circle-fill fs-10 align-middle me-1"></i>
-                        Online ({{ ucwords(str_replace('_', ' ', $chatPartner->user_type)) }})
+
+                    {{-- ✅ DYNAMIC STATUS INDICATOR --}}
+                    {{-- Default is Offline (Red). JS will turn it Green if they are here. --}}
+                    <small id="partner-status" class="text-danger fw-medium transition-all">
+                        <i id="partner-icon" class="ri-checkbox-blank-circle-fill fs-10 align-middle me-1"></i>
+                        <span id="partner-text">Offline</span>
                     </small>
                 </div>
             </div>
@@ -28,10 +30,9 @@
                     <span class="badge bg-white text-muted border fw-normal shadow-sm">Today</span>
                 </div>
 
-                {{-- Load History (PHP Loop) --}}
                 @forelse($messages as $msg)
                     @if($msg->sender_id === Auth::id())
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end slide-in">
                             <div class="text-end" style="max-width: 75%;">
                                 <div class="bg-primary text-white p-3 rounded-3 rounded-top-end-0 shadow-sm text-start">
                                     {{ $msg->message }}
@@ -40,7 +41,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="d-flex justify-content-start">
+                        <div class="d-flex justify-content-start slide-in">
                             <div class="avatar-xs me-2 mt-auto">
                                 <span class="avatar-title rounded-circle bg-primary-subtle text-primary fw-bold">
                                     {{ substr($chatPartner->name, 0, 1) }}
@@ -80,46 +81,35 @@
         </div>
     </div>
 
-    <!-- ✅ WEBSOCKETS ENGINE -->
+    <!-- ✅ WEBSOCKETS LOGIC -->
     @vite(['resources/js/app.js'])
 
     <script type="module">
         const currentUserId = {{ Auth::id() }};
-        const receiverId = document.getElementById('receiver_id').value;
+        const receiverId = parseInt(document.getElementById('receiver_id').value);
         const partnerInitial = "{{ substr($chatPartner->name, 0, 1) }}";
         const container = document.getElementById('messages-container');
         const chatBox = document.getElementById('chat-box');
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('message-input');
 
-        // 1. Auto-scroll on load
+        // Status UI Elements
+        const statusLabel = document.getElementById('partner-status');
+        const statusText = document.getElementById('partner-text');
+
         function scrollToBottom() {
             chatBox.scrollTop = chatBox.scrollHeight;
         }
         scrollToBottom();
 
-        // 2. Helper: Add Message to HTML
         function appendMessage(message, isMe) {
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             let html = '';
 
             if (isMe) {
-                html = `
-                <div class="d-flex justify-content-end slide-in">
-                    <div class="text-end" style="max-width: 75%;">
-                        <div class="bg-primary text-white p-3 rounded-3 rounded-top-end-0 shadow-sm text-start">${message}</div>
-                        <small class="text-muted fs-11 mt-1 d-block">${time}</small>
-                    </div>
-                </div>`;
+                html = `<div class="d-flex justify-content-end slide-in"><div class="text-end" style="max-width: 75%;"><div class="bg-primary text-white p-3 rounded-3 rounded-top-end-0 shadow-sm text-start">${message}</div><small class="text-muted fs-11 mt-1 d-block">${time}</small></div></div>`;
             } else {
-                html = `
-                <div class="d-flex justify-content-start slide-in">
-                    <div class="avatar-xs me-2 mt-auto">
-                        <span class="avatar-title rounded-circle bg-primary-subtle text-primary fw-bold">${partnerInitial}</span>
-                    </div>
-                    <div style="max-width: 75%;">
-                        <div class="bg-white text-dark p-3 rounded-3 rounded-top-start-0 shadow-sm border">${message}</div>
-                        <small class="text-muted fs-11 mt-1 d-block">${time}</small>
-                    </div>
-                </div>`;
+                html = `<div class="d-flex justify-content-start slide-in"><div class="avatar-xs me-2 mt-auto"><span class="avatar-title rounded-circle bg-primary-subtle text-primary fw-bold">${partnerInitial}</span></div><div style="max-width: 75%;"><div class="bg-white text-dark p-3 rounded-3 rounded-top-start-0 shadow-sm border">${message}</div><small class="text-muted fs-11 mt-1 d-block">${time}</small></div></div>`;
             }
 
             const emptyState = document.getElementById('empty-state');
@@ -129,35 +119,49 @@
             scrollToBottom();
         }
 
-        // 3. 📡 LISTENER: This waits for incoming messages
-        // We listen to 'chat.{my_id}' because the Event sends to receiver's ID
-        setTimeout(() => {
-            console.log("Subscribing to channel: chat." + currentUserId);
+        // ✅ HELPER: Switch Green/Red
+        function updateStatus(isOnline) {
+            if (isOnline) {
+                statusLabel.classList.replace('text-danger', 'text-success');
+                statusText.innerText = 'Online';
+            } else {
+                statusLabel.classList.replace('text-success', 'text-danger');
+                statusText.innerText = 'Offline';
+            }
+        }
 
+        setTimeout(() => {
+            // 1. MESSAGES (Private)
             window.Echo.private(`chat.${currentUserId}`)
                 .listen('MessageSent', (e) => {
-                    console.log('WebSocket Event Received:', e);
-
-                    // Only show if it is from the person I am currently looking at
-                    // (Prevents mixed conversations if you have multiple tabs open)
                     if (e.sender_id == receiverId) {
-                        appendMessage(e.message, false); // false = incoming message
-                    } else {
-                        console.log('Ignored message from diff user:', e.sender_id);
+                        appendMessage(e.message, false);
                     }
                 });
-        }, 500);
 
-        // 4. SENDER: Standard AJAX Post
-        const form = document.getElementById('chat-form');
-        const input = document.getElementById('message-input');
+            // 2. PRESENCE (Online/Offline)
+            // We join the 'online' channel defined in routes/channels.php
+            window.Echo.join('online')
+                .here((users) => {
+                    // When I join, check if my partner is already here
+                    const isPartnerHere = users.some(user => user.id === receiverId);
+                    updateStatus(isPartnerHere);
+                })
+                .joining((user) => {
+                    // Someone joined. Is it my partner?
+                    if (user.id === receiverId) updateStatus(true);
+                })
+                .leaving((user) => {
+                    // Someone left. Is it my partner?
+                    if (user.id === receiverId) updateStatus(false);
+                });
+        }, 500);
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const message = input.value.trim();
             if(!message) return;
 
-            // Optimistic UI: Show it immediately
             appendMessage(message, true);
             input.value = '';
 
@@ -168,10 +172,7 @@
                     "Accept": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
-                body: JSON.stringify({
-                    message: message,
-                    receiver_id: receiverId
-                })
+                body: JSON.stringify({ message: message, receiver_id: receiverId })
             });
         });
     </script>
@@ -179,6 +180,7 @@
     <style>
         .slide-in { animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .transition-all { transition: all 0.3s ease; }
     </style>
 
 @endsection
