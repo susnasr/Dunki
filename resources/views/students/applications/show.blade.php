@@ -7,7 +7,7 @@
         <div>
             @if(Auth::user()->user_type == 'academic_advisor')
                 <h4 class="fw-bold mb-1">Review Application <span class="badge bg-warning-subtle text-warning fs-12 align-middle border border-warning-subtle ms-2">Advisor Mode</span></h4>
-                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
+                <p class="text-muted mb-0">Applicant: <span class="fw-medium text-body">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
             @elseif(Auth::user()->user_type == 'visa_consultant')
                 <h4 class="fw-bold mb-1">Visa Filing <span class="badge bg-info-subtle text-info fs-12 align-middle border border-info-subtle ms-2">Consultant Mode</span></h4>
                 <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
@@ -50,7 +50,7 @@
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <small class="text-muted text-uppercase fw-bold fs-11">Full Name</small>
-                                <p class="fw-bold mb-0 text-dark fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
+                                <p class="fw-bold mb-0 text-body fs-15">{{ $application->clientProfile->user->name ?? 'N/A' }}</p>
                             </div>
                             <div class="col-md-6">
                                 <small class="text-muted text-uppercase fw-bold fs-11">Email Address</small>
