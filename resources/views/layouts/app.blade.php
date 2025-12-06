@@ -79,10 +79,18 @@
                         <span class="side-menu__label">Documents</span>
                     </a>
                 </li>
+
+                {{-- ✅ STUDENT CHAT BADGE --}}
                 <li class="slide">
-                    <a href="{{ route('chat.index') }}" class="side-menu__item">
+                    <a href="{{ route('chat.index') }}" class="side-menu__item position-relative">
                         <span class="side_menu_icon"><i class="ri-chat-1-line"></i></span>
                         <span class="side-menu__label">Advisor Chat</span>
+
+                        <span id="sidebar-badge-student"
+                              class="position-absolute top-50 end-0 translate-middle-y badge rounded-pill bg-danger {{ ($globalUnreadCount ?? 0) > 0 ? '' : 'd-none' }}"
+                              style="margin-right: 15px;">
+                                {{ ($globalUnreadCount ?? 0) > 9 ? '9+' : ($globalUnreadCount ?? 0) }}
+                            </span>
                     </a>
                 </li>
             @endif
@@ -140,22 +148,29 @@
                     </a>
                 </li>
 
+                {{-- ✅ ADVISOR CHAT BADGE --}}
                 <li class="slide">
-                    <a href="{{ route('chat.index') }}" class="side-menu__item">
+                    <a href="{{ route('chat.index') }}" class="side-menu__item position-relative">
                         <span class="side_menu_icon"><i class="ri-chat-smile-2-line"></i></span>
                         <span class="side-menu__label">Messages</span>
+
+                        <span id="sidebar-badge-advisor"
+                              class="position-absolute top-50 end-0 translate-middle-y badge rounded-pill bg-danger {{ ($globalUnreadCount ?? 0) > 0 ? '' : 'd-none' }}"
+                              style="margin-right: 15px;">
+                                {{ ($globalUnreadCount ?? 0) > 9 ? '9+' : ($globalUnreadCount ?? 0) }}
+                            </span>
                     </a>
                 </li>
             @endif
 
-            {{-- ✈️ VISA CONSULTANT MENU (New!) --}}
+            {{-- ✈️ VISA CONSULTANT MENU --}}
             @if(auth()->user()->user_type === 'visa_consultant')
                 <li class="menu-title">Visa Center</li>
 
                 <li class="slide">
                     <a href="{{ route('consultant.dashboard') }}" class="side-menu__item">
                         <span class="side_menu_icon"><i class="ri-passport-line"></i></span>
-                        <span class="side-menu__label theme-text">Visa Processing</span>
+                        <span class="side-menu__label">Visa Processing</span>
                     </a>
                 </li>
 
@@ -237,5 +252,88 @@
 <script type="module" src="{{ asset('assets/js/app.js') }}"></script>
 
 @stack('scripts')
+
+{{-- ✅ GLOBAL REAL-TIME NOTIFICATION LISTENER --}}
+@auth
+    @vite(['resources/js/app.js'])
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUserId = {{ Auth::id() }};
+
+            // Select the badge based on role
+            const badgeStudent = document.getElementById('sidebar-badge-student');
+            const badgeAdvisor = document.getElementById('sidebar-badge-advisor');
+            const activeBadge = badgeStudent || badgeAdvisor;
+
+            // Check if we are currently ON the chat page
+            const onChatPage = window.location.pathname.includes('/chat');
+
+            // 1. Initial State: If on chat page, hide badge immediately
+            if (onChatPage && activeBadge) {
+                activeBadge.innerText = '0';
+                activeBadge.classList.add('d-none');
+            }
+
+            if (activeBadge) {
+                console.log("✅ Sidebar Badge Listener Active for User:", currentUserId);
+
+                setTimeout(() => {
+                    if(window.Echo) {
+                        window.Echo.private(`chat.${currentUserId}`)
+                            .listen('MessageSent', (e) => {
+                                console.log("🔔 Event Received:", e);
+
+                                // Only notify if NOT on chat page
+                                if (!onChatPage) {
+
+                                    // A. Show Toast (SweetAlert)
+                                    if (typeof Swal !== 'undefined') {
+                                        Swal.fire({
+                                            toast: true,
+                                            position: 'top-end',
+                                            icon: 'info',
+                                            title: 'New Message',
+                                            text: e.message,
+                                            showConfirmButton: false,
+                                            timer: 3000,
+                                            timerProgressBar: true
+                                        });
+                                    }
+
+                                    // B. Update Badge Logic
+                                    let currentText = activeBadge.innerText.trim();
+                                    let currentCount = 0;
+
+                                    // Handle '9+' or empty string cases
+                                    if (currentText === '9+') {
+                                        currentCount = 10;
+                                    } else if (currentText !== '') {
+                                        currentCount = parseInt(currentText);
+                                        if (isNaN(currentCount)) currentCount = 0;
+                                    }
+
+                                    let newCount = currentCount + 1;
+                                    console.log(`🔢 Updating Badge: ${currentCount} -> ${newCount}`);
+
+                                    // Update Text
+                                    activeBadge.innerText = newCount > 9 ? '9+' : newCount;
+
+                                    // Force Visibility (CSS Class + Inline Style backup)
+                                    activeBadge.classList.remove('d-none');
+                                    activeBadge.style.display = 'inline-block';
+
+                                    // Add a little animation pop
+                                    activeBadge.classList.add('animate__animated', 'animate__pulse');
+                                }
+                            });
+                    }
+                }, 1000);
+            } else {
+                console.log("⚠️ No Sidebar Badge found on this page.");
+            }
+        });
+    </script>
+@endauth
+
 </body>
 </html>

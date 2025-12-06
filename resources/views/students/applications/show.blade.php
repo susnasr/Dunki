@@ -13,7 +13,7 @@
                 <p class="text-muted mb-0">Applicant: <span class="fw-medium text-dark">{{ $application->clientProfile->user->name }}</span> • ID: #{{ $application->application_number }}</p>
             @else
                 <h4 class="fw-bold mb-1">Application Details</h4>
-                <p class="text-muted mb-0">ID: <span class="fw-medium text-dark">#{{ $application->application_number }}</span></p>
+                <p class="text-muted mb-0">ID: <span class="fw-medium text-body">#{{ $application->application_number }}</span></p>
             @endif
         </div>
         <div>
@@ -83,15 +83,15 @@
                             <div class="hstack gap-3 mt-3">
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Course</small>
-                                    <span class="fw-medium text-dark">{{ $application->course_name ?? 'General Admission' }}</span>
+                                    <span class="fw-medium text-body">{{ $application->course_name ?? 'General Admission' }}</span>
                                 </div>
                                 <div class="border-end pe-3">
                                     <small class="text-muted d-block">Intake</small>
-                                    <span class="fw-medium text-dark">{{ $application->intake ?? 'Fall 2025' }}</span>
+                                    <span class="fw-medium text-body">{{ $application->intake ?? 'Fall 2025' }}</span>
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">Type</small>
-                                    <span class="fw-medium text-dark">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
+                                    <span class="fw-medium text-body">{{ ucwords(str_replace('_', ' ', $application->type)) }}</span>
                                 </div>
                             </div>
                         </div>

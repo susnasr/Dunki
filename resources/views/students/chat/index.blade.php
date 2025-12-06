@@ -11,9 +11,7 @@
                 </div>
                 <div>
                     <h6 class="mb-0 fw-bold">{{ $chatPartner->name }}</h6>
-
-                    {{-- ✅ DYNAMIC STATUS INDICATOR --}}
-                    {{-- Default is Offline (Red). JS will turn it Green if they are here. --}}
+                    {{-- Status Indicator --}}
                     <small id="partner-status" class="text-danger fw-medium transition-all">
                         <i id="partner-icon" class="ri-checkbox-blank-circle-fill fs-10 align-middle me-1"></i>
                         <span id="partner-text">Offline</span>
@@ -100,7 +98,20 @@
         function scrollToBottom() {
             chatBox.scrollTop = chatBox.scrollHeight;
         }
-        scrollToBottom();
+
+        // 🛑 FIX FOR VANISHING BADGE: Reset the sidebar count when entering chat
+        document.addEventListener('DOMContentLoaded', function() {
+            const badgeStudent = document.getElementById('sidebar-badge-student');
+            const badgeAdvisor = document.getElementById('sidebar-badge-advisor');
+            const activeBadge = badgeStudent || badgeAdvisor;
+
+            if (activeBadge) {
+                activeBadge.innerText = '0';
+                activeBadge.classList.add('d-none');
+            }
+            scrollToBottom();
+        });
+
 
         function appendMessage(message, isMe) {
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -134,34 +145,33 @@
             // 1. MESSAGES (Private)
             window.Echo.private(`chat.${currentUserId}`)
                 .listen('MessageSent', (e) => {
+                    // Only show if it is from the person I am currently looking at
                     if (e.sender_id == receiverId) {
                         appendMessage(e.message, false);
                     }
                 });
 
             // 2. PRESENCE (Online/Offline)
-            // We join the 'online' channel defined in routes/channels.php
             window.Echo.join('online')
                 .here((users) => {
-                    // When I join, check if my partner is already here
                     const isPartnerHere = users.some(user => user.id === receiverId);
                     updateStatus(isPartnerHere);
                 })
                 .joining((user) => {
-                    // Someone joined. Is it my partner?
                     if (user.id === receiverId) updateStatus(true);
                 })
                 .leaving((user) => {
-                    // Someone left. Is it my partner?
                     if (user.id === receiverId) updateStatus(false);
                 });
         }, 500);
 
+        // 3. SEND MESSAGE (Standard AJAX)
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const message = input.value.trim();
             if(!message) return;
 
+            // Optimistic UI: Show it immediately
             appendMessage(message, true);
             input.value = '';
 
@@ -182,5 +192,4 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .transition-all { transition: all 0.3s ease; }
     </style>
-
 @endsection
